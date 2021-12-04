@@ -1,8 +1,10 @@
+import Grid from "hedron"
 import React, { useState } from "react"
 import Layout from "../components/Layout"
 import Router, { useRouter } from "next/router"
 import gql from "graphql-tag"
 import { useMutation } from "@apollo/client"
+import { Button, InputGroup } from "@blueprintjs/core"
 
 const SignupMutation = gql`
   mutation SignupMutation($name: String, $email: String!) {
@@ -38,23 +40,37 @@ function Signup(props) {
           }}
         >
           <h1>Signup user</h1>
-          <input
-            autoFocus
-            onChange={e => setName(e.target.value)}
-            placeholder="Name"
-            type="text"
-            value={name}
-          />
-          <input
-            onChange={e => setEmail(e.target.value)}
-            placeholder="Email address)"
-            type="text"
-            value={email}
-          />
-          <input disabled={!name || !email} type="submit" value="Signup" />
-          <a className="back" href="#" onClick={() => Router.push("/")}>
-            or Cancel
-          </a>
+          <Grid.Provider>
+            <Grid.Bounds direction="vertical">
+              <Grid.Box>
+                <InputGroup
+                  autoFocus
+                  onChange={e => setName(e.target.value)}
+                  placeholder="Name"
+                  type="text"
+                  value={name}
+                />
+              </Grid.Box>
+              <Grid.Box>
+                <InputGroup
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="Email address"
+                  type="text"
+                  value={email}
+                />
+              </Grid.Box>
+              <Grid.Bounds>
+                <Grid.Box width="half">
+                  <Button intent="primary" text="Signup" type="submit" fill />
+                </Grid.Box>
+                <Grid.Box width="half">
+                  <Button onClick={() => Router.push("/")} minimal fill>
+                    or Cancel
+                  </Button>
+                </Grid.Box>
+              </Grid.Bounds>
+            </Grid.Bounds>
+          </Grid.Provider>
         </form>
       </div>
       <style jsx>{`
