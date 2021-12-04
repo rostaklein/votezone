@@ -1,10 +1,10 @@
 import Layout from "../components/Layout"
 import Link from "next/link"
 import gql from "graphql-tag"
-import { useQuery } from "@apollo/client"
+import { useDraftsQuery } from "../generated/gql-client"
 
-const DraftsQuery = gql`
-  query DraftsQuery {
+gql`
+  query Drafts {
     drafts {
       id
       title
@@ -37,7 +37,7 @@ const Post = ({ post }) => (
 )
 
 const Drafts = () => {
-  const { loading, error, data } = useQuery(DraftsQuery, {
+  const { loading, error, data } = useDraftsQuery({
     fetchPolicy: "cache-and-network",
   })
 

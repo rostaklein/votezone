@@ -1,10 +1,14 @@
 import Layout from "../../components/Layout"
 import Router, { useRouter } from "next/router"
 import gql from "graphql-tag"
-import { useQuery, useMutation } from "@apollo/client"
+import {
+  useDeletePostMutation,
+  usePostQuery,
+  usePublishPostMutation,
+} from "../../generated/gql-client"
 
-const PostQuery = gql`
-  query PostQuery($postId: String!) {
+gql`
+  query Post($postId: String!) {
     post(postId: $postId) {
       id
       title
@@ -18,8 +22,8 @@ const PostQuery = gql`
   }
 `
 
-const PublishMutation = gql`
-  mutation PublishMutation($postId: String!) {
+gql`
+  mutation PublishPost($postId: String!) {
     publish(postId: $postId) {
       id
       title
@@ -33,8 +37,8 @@ const PublishMutation = gql`
   }
 `
 
-const DeleteMutation = gql`
-  mutation DeleteMutation($postId: String!) {
+gql`
+  mutation DeletePost($postId: String!) {
     deletePost(postId: $postId) {
       id
       title
@@ -49,13 +53,13 @@ const DeleteMutation = gql`
 `
 
 function Post() {
-  const postId = useRouter().query.id
-  const { loading, error, data } = useQuery(PostQuery, {
+  const postId = useRouter().query.id as string
+  const { loading, error, data } = usePostQuery({
     variables: { postId },
   })
 
-  const [publish] = useMutation(PublishMutation)
-  const [deletePost] = useMutation(DeleteMutation)
+  const [publish] = usePublishPostMutation()
+  const [deletePost] = useDeletePostMutation()
 
   if (loading) {
     console.log("loading")

@@ -5,9 +5,10 @@ import Router, { useRouter } from "next/router"
 import gql from "graphql-tag"
 import { useMutation } from "@apollo/client"
 import { Button, InputGroup } from "@blueprintjs/core"
+import { useSignUpMutation } from "../generated/gql-client"
 
-const SignupMutation = gql`
-  mutation SignupMutation($name: String, $email: String!) {
+gql`
+  mutation SignUp($name: String, $email: String!) {
     signupUser(name: $name, email: $email) {
       id
       name
@@ -20,7 +21,7 @@ function Signup(props) {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
 
-  const [signup] = useMutation(SignupMutation)
+  const [signup] = useSignUpMutation()
 
   return (
     <Layout>

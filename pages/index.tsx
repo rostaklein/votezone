@@ -2,9 +2,10 @@ import Layout from "../components/Layout"
 import Link from "next/link"
 import gql from "graphql-tag"
 import { useQuery } from "@apollo/client"
+import { useFeedQuery } from "../generated/gql-client"
 
-const FeedQuery = gql`
-  query FeedQuery {
+gql`
+  query Feed {
     feed {
       id
       title
@@ -37,7 +38,7 @@ const Post = ({ post }) => (
 )
 
 const Blog = () => {
-  const { loading, error, data } = useQuery(FeedQuery, {
+  const { loading, error, data } = useFeedQuery({
     fetchPolicy: "cache-and-network",
   })
 
