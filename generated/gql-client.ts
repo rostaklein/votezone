@@ -21,8 +21,9 @@ export type Mutation = {
   __typename?: 'Mutation';
   createDraft?: Maybe<Post>;
   deletePost?: Maybe<Post>;
+  login?: Maybe<User>;
   publish?: Maybe<Post>;
-  signupUser?: Maybe<User>;
+  register?: Maybe<User>;
 };
 
 
@@ -38,14 +39,21 @@ export type MutationDeletePostArgs = {
 };
 
 
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
 export type MutationPublishArgs = {
   postId?: InputMaybe<Scalars['String']>;
 };
 
 
-export type MutationSignupUserArgs = {
+export type MutationRegisterArgs = {
   email: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
+  password: Scalars['String'];
 };
 
 export type Post = {
@@ -126,10 +134,11 @@ export type DeletePostMutation = { __typename?: 'Mutation', deletePost?: { __typ
 export type SignUpMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
+  password: Scalars['String'];
 }>;
 
 
-export type SignUpMutation = { __typename?: 'Mutation', signupUser?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined } | null | undefined };
+export type SignUpMutation = { __typename?: 'Mutation', register?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined } | null | undefined };
 
 
 export const CreateDraftDocument = gql`
@@ -379,8 +388,8 @@ export type DeletePostMutationHookResult = ReturnType<typeof useDeletePostMutati
 export type DeletePostMutationResult = Apollo.MutationResult<DeletePostMutation>;
 export type DeletePostMutationOptions = Apollo.BaseMutationOptions<DeletePostMutation, DeletePostMutationVariables>;
 export const SignUpDocument = gql`
-    mutation SignUp($name: String, $email: String!) {
-  signupUser(name: $name, email: $email) {
+    mutation SignUp($name: String, $email: String!, $password: String!) {
+  register(name: $name, email: $email, password: $password) {
     id
     name
     email
@@ -404,6 +413,7 @@ export type SignUpMutationFn = Apollo.MutationFunction<SignUpMutation, SignUpMut
  *   variables: {
  *      name: // value for 'name'
  *      email: // value for 'email'
+ *      password: // value for 'password'
  *   },
  * });
  */

@@ -9,17 +9,18 @@ generator client {
 }
 
 model User {
-  id    String  @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  email String  @unique
-  name  String?
-  posts Post[]
+  id       String  @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  email    String  @unique
+  password String
+  name     String?
+  posts    Post[]
 }
 
 model Post {
-  id       String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id        String  @id @default(dbgenerated()) @map("_id") @db.ObjectId
   published Boolean @default(false)
-  title    String
+  title     String
   content   String?
-  author     User      @relation(fields: [authorId], references: [id])
-  authorId   String    @db.ObjectId
+  author    User    @relation(fields: [authorId], references: [id])
+  authorId  String  @db.ObjectId
 }

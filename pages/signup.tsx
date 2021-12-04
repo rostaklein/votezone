@@ -8,8 +8,8 @@ import { Button, InputGroup } from "@blueprintjs/core"
 import { useSignUpMutation } from "../generated/gql-client"
 
 gql`
-  mutation SignUp($name: String, $email: String!) {
-    signupUser(name: $name, email: $email) {
+  mutation SignUp($name: String, $email: String!, $password: String!) {
+    register(name: $name, email: $email, password: $password) {
       id
       name
       email
@@ -20,6 +20,7 @@ gql`
 function Signup(props) {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [pwd, setPwd] = useState("")
 
   const [signup] = useSignUpMutation()
 
@@ -35,6 +36,7 @@ function Signup(props) {
               variables: {
                 name: name,
                 email: email,
+                password: pwd,
               },
             })
             Router.push("/")
@@ -58,6 +60,14 @@ function Signup(props) {
                   placeholder="Email address"
                   type="text"
                   value={email}
+                />
+              </Grid.Box>
+              <Grid.Box>
+                <InputGroup
+                  onChange={e => setPwd(e.target.value)}
+                  placeholder="Password"
+                  type="password"
+                  value={pwd}
                 />
               </Grid.Box>
               <Grid.Bounds>

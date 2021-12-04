@@ -1,25 +1,11 @@
 import { stringArg, nonNull, extendType } from "nexus"
 import prisma from "../../../lib/prisma"
+import { loginMutation } from "./login"
+import { registerMutation } from "./register"
 
 export const Mutation = extendType({
   type: "Mutation",
   definition(t) {
-    t.field("signupUser", {
-      type: "User",
-      args: {
-        name: stringArg(),
-        email: nonNull(stringArg()),
-      },
-      resolve: (_, { name, email }, ctx) => {
-        return prisma.user.create({
-          data: {
-            name,
-            email,
-          },
-        })
-      },
-    })
-
     t.nullable.field("deletePost", {
       type: "Post",
       args: {
@@ -67,3 +53,5 @@ export const Mutation = extendType({
     })
   },
 })
+
+export const AuthMutations = [registerMutation, loginMutation]

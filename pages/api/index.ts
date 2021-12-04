@@ -6,7 +6,7 @@ import path from "path"
 import cors from "micro-cors"
 import prisma from "../../lib/prisma"
 import { User } from "./types/User"
-import { Mutation } from "./mutations"
+import { AuthMutations, Mutation } from "./mutations"
 import { Query } from "./queries"
 
 export const GQLDate = asNexusMethod(DateTimeResolver, "date")
@@ -31,7 +31,7 @@ const Post = objectType({
 })
 
 export const schema = makeSchema({
-  types: [Query, Mutation, Post, User, GQLDate],
+  types: [Query, Mutation, Post, User, GQLDate, ...AuthMutations],
   outputs: {
     typegen: path.join(process.cwd(), "generated/nexus-typegen.ts"),
     schema: path.join(process.cwd(), "generated/schema.graphql"),
