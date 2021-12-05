@@ -12,7 +12,7 @@ export const loginMutation = mutationField("login", {
   },
   resolve: async (_, args) => {
     const user = await prisma.user.findFirst({ where: { email: args.email } })
-    console.log({ user })
+
     if (!user) {
       throw new ApolloError("User not found", "USER_NOT_FOUND")
     }

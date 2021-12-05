@@ -10,9 +10,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "tsc",
+    "postinstall": "npm run generate",
+    "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus  && npm -s run generate:gql-types",
     "generate:prisma": "prisma generate",
-    "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
     "generate:nexus": "ts-node --transpile-only -P nexus.tsconfig.json pages/api",
     "generate:gql-types": "graphql-codegen --config codegen.yml"
   },
