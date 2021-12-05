@@ -17,11 +17,17 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type AuthPayload = {
+  __typename?: 'AuthPayload';
+  token?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createDraft?: Maybe<Post>;
   deletePost?: Maybe<Post>;
-  login?: Maybe<User>;
+  login?: Maybe<AuthPayload>;
   publish?: Maybe<Post>;
   register?: Maybe<User>;
 };

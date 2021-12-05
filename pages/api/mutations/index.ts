@@ -1,5 +1,6 @@
 import { stringArg, nonNull, extendType } from "nexus"
 import prisma from "../../../lib/prisma"
+import { AuthPayload } from "../types/AuthPayload"
 import { loginMutation } from "./login"
 import { registerMutation } from "./register"
 
@@ -54,4 +55,4 @@ export const Mutation = extendType({
   },
 })
 
-export const AuthMutations = [registerMutation, loginMutation]
+export const AuthMutations = [registerMutation, loginMutation, AuthPayload]

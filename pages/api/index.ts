@@ -1,3 +1,4 @@
+import * as Path from "path"
 import { ApolloServer } from "apollo-server-micro"
 import { DateTimeResolver } from "graphql-scalars"
 import { NextApiHandler } from "next"
@@ -8,6 +9,8 @@ import prisma from "../../lib/prisma"
 import { User } from "./types/User"
 import { AuthMutations, Mutation } from "./mutations"
 import { Query } from "./queries"
+import { MicroRequest } from "apollo-server-micro/dist/types"
+import { createContext } from "./context"
 
 export const GQLDate = asNexusMethod(DateTimeResolver, "date")
 
@@ -36,6 +39,11 @@ export const schema = makeSchema({
     typegen: path.join(process.cwd(), "generated/nexus-typegen.ts"),
     schema: path.join(process.cwd(), "generated/schema.graphql"),
   },
+  contextType: {
+    module: Path.join(__dirname, "./context.ts"),
+    alias: "Context",
+    export: "Context",
+  },
 })
 
 export const config = {
@@ -44,7 +52,10 @@ export const config = {
   },
 }
 
-const apolloServer = new ApolloServer({ schema })
+const apolloServer = new ApolloServer({
+  schema,
+  context: (params: { req: MicroRequest }) => createContext(params.req),
+})
 
 let apolloServerHandler: NextApiHandler
 

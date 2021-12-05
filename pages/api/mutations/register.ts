@@ -1,7 +1,7 @@
 import { UserInputError } from "apollo-server-micro"
 import { mutationField, nonNull, stringArg } from "nexus"
 import prisma from "../../../lib/prisma"
-import { hashPwd } from "./auth/hashPassword"
+import { hashPwd } from "../auth/hashPassword"
 
 export const registerMutation = mutationField("register", {
   type: "User",

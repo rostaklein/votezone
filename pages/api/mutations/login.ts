@@ -1,10 +1,11 @@
-import { UserInputError } from "apollo-server-micro"
+import { ApolloError } from "apollo-server-micro"
 import { mutationField, nonNull, stringArg } from "nexus"
 import prisma from "../../../lib/prisma"
-import { hashPwd } from "./auth/hashPassword"
+import { hashPwd } from "../auth/hashPassword"
+import { issueToken } from "../auth/tokens"
 
 export const loginMutation = mutationField("login", {
-  type: "User",
+  type: "AuthPayload",
   args: {
     email: nonNull(stringArg()),
     password: nonNull(stringArg()),
@@ -13,15 +14,18 @@ export const loginMutation = mutationField("login", {
     const user = await prisma.user.findFirst({ where: { email: args.email } })
     console.log({ user })
     if (!user) {
-      throw new UserInputError("User not found")
+      throw new ApolloError("User not found", "USER_NOT_FOUND")
     }
 
     const hashedPwd = hashPwd(args.password)
 
     if (user.password !== hashedPwd) {
-      throw new UserInputError("Password doesnt match")
+      throw new ApolloError("Password doesnt match", "WRONG_PASSWORD")
     }
 
-    return user
+    return {
+      user,
+      token: issueToken({ id: user.id }),
+    }
   },
 })
