@@ -72,19 +72,21 @@ function Post() {
 
   console.log(`response`, data)
 
-  let title = data.post.title
-  if (!data.post.published) {
+  let title = data?.post?.title
+  if (!data?.post?.published) {
     title = `${title} (Draft)`
   }
 
-  const authorName = data.post.author ? data.post.author.name : "Unknown author"
+  const authorName = data?.post?.author
+    ? data?.post?.author.name
+    : "Unknown author"
   return (
     <Layout>
       <div>
         <h2>{title}</h2>
         <p>By {authorName}</p>
-        <p>{data.post.content}</p>
-        {!data.post.published && (
+        <p>{data?.post?.content}</p>
+        {!data?.post?.published && (
           <button
             onClick={async e => {
               await publish({

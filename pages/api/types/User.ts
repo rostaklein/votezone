@@ -12,7 +12,7 @@ export const User = objectType({
       resolve: parent =>
         prisma.user
           .findUnique({
-            where: { id: parent.id },
+            where: { id: parent.id ?? undefined },
           })
           .posts(),
     })

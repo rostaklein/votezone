@@ -1,3 +1,4 @@
+import { UserInputError } from "apollo-server-micro"
 import { nonNull, nullable, objectType, stringArg } from "nexus"
 import prisma from "../../../lib/prisma"
 
@@ -42,6 +43,9 @@ export const Query = objectType({
         searchString: nullable(stringArg()),
       },
       resolve: (_, { searchString }, ctx) => {
+        if (!searchString) {
+          throw new UserInputError("No string to search")
+        }
         return prisma.post.findMany({
           where: {
             OR: [

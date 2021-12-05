@@ -9,6 +9,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "lint": "tsc",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus  && npm -s run generate:gql-types",
     "generate:prisma": "prisma generate",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",

@@ -1,4 +1,10 @@
-import Document, { Head, Html, Main, NextScript } from "next/document"
+import Document, {
+  DocumentProps,
+  Head,
+  Html,
+  Main,
+  NextScript,
+} from "next/document"
 import { createGlobalStyle, ServerStyleSheet } from "styled-components"
 
 const GlobalStyle = createGlobalStyle`
@@ -20,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
+// @ts-ignore
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet()
@@ -51,7 +58,6 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
           <GlobalStyle />
-          {this.props.styleTags}
         </Head>
         <body>
           <Main />

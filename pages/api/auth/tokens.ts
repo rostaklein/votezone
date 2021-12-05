@@ -24,7 +24,9 @@ export const verifyToken = (token: string | undefined): Promise<UserDetails> =>
     }
     jwt.verify(token, process.env.CLIENT_SECRET, (err, decoded) => {
       if (err || !decoded) {
-        return reject(new ApolloError(err.message, "INVALID_TOKEN"))
+        return reject(
+          new ApolloError(err?.message ?? "Invalid token", "INVALID_TOKEN")
+        )
       }
 
       const userDetails = decoded as UserDetails

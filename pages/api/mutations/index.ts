@@ -14,7 +14,7 @@ export const Mutation = extendType({
       },
       resolve: (_, { postId }, ctx) => {
         return prisma.post.delete({
-          where: { id: postId },
+          where: { id: postId ?? undefined },
         })
       },
     })
@@ -33,7 +33,7 @@ export const Mutation = extendType({
             content,
             published: false,
             author: {
-              connect: { email: authorEmail },
+              connect: { email: authorEmail ?? undefined },
             },
           },
         })
@@ -47,7 +47,7 @@ export const Mutation = extendType({
       },
       resolve: (_, { postId }, ctx) => {
         return prisma.post.update({
-          where: { id: postId },
+          where: { id: postId ?? undefined },
           data: { published: true },
         })
       },

@@ -26,7 +26,7 @@ const Post = objectType({
       resolve: parent =>
         prisma.post
           .findUnique({
-            where: { id: parent.id },
+            where: { id: parent.id ?? undefined },
           })
           .author(),
     })
