@@ -1,6 +1,8 @@
+import { Button } from "@blueprintjs/core"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useAppState } from "../pages/context"
+import Logout from "./Logout"
 
 // function isActive(pathname) {
 //   return (
@@ -29,23 +31,31 @@ const Header = () => {
         </Link>
       </div>
       <div className="right">
-        {currentUser?.name && <h4>Welcome {currentUser.name}</h4>}
-        <Link href="/signup">
-          <a data-active={isActive("/signup")}>Signup</a>
-        </Link>
-        <Link href="/create">
-          <a data-active={isActive("/create")}>+ Create draft</a>
-        </Link>
+        {currentUser?.name ? (
+          <>
+            <h4>
+              Welcome {currentUser.name} <Logout />
+            </h4>
+            <Link href="/create">
+              <Button intent="primary">+ Create draft </Button>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link href="/signup">
+              <Button outlined={isActive("/signup")}>Sign up</Button>
+            </Link>{" "}
+            <Link href="/login">
+              <Button outlined={isActive("/login")}>Log In</Button>
+            </Link>
+          </>
+        )}
       </div>
       <style jsx>{`
         nav {
           display: flex;
           padding: 2rem;
           align-items: center;
-        }
-
-        .bold {
-          font-weight: bold;
         }
 
         a {
@@ -64,12 +74,6 @@ const Header = () => {
 
         .right {
           margin-left: auto;
-        }
-
-        .right a {
-          border: 1px solid black;
-          padding: 0.5rem 1rem;
-          border-radius: 3px;
         }
       `}</style>
     </nav>
