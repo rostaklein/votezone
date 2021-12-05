@@ -38,9 +38,7 @@ const Post = ({ post }) => (
 )
 
 const Blog = () => {
-  const { loading, error, data } = useFeedQuery({
-    fetchPolicy: "cache-and-network",
-  })
+  const { loading, error, data } = useFeedQuery()
 
   if (loading) {
     return <div>Loading ...</div>

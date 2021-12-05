@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { useAppState } from "../pages/context"
 
 // function isActive(pathname) {
 //   return (
@@ -9,6 +10,7 @@ import { useRouter } from "next/router"
 
 const Header = () => {
   const router = useRouter()
+  const { currentUser } = useAppState()
 
   function isActive(pathname) {
     return router.pathname === pathname
@@ -27,6 +29,7 @@ const Header = () => {
         </Link>
       </div>
       <div className="right">
+        {currentUser?.name && <h4>Welcome {currentUser.name}</h4>}
         <Link href="/signup">
           <a data-active={isActive("/signup")}>Signup</a>
         </Link>

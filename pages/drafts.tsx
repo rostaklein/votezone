@@ -37,9 +37,7 @@ const Post = ({ post }) => (
 )
 
 const Drafts = () => {
-  const { loading, error, data } = useDraftsQuery({
-    fetchPolicy: "cache-and-network",
-  })
+  const { loading, error, data } = useDraftsQuery()
 
   if (loading) {
     return <div>Loading ...</div>
@@ -53,8 +51,8 @@ const Drafts = () => {
       <div className="page">
         <h1>Drafts</h1>
         <main>
-          {data.drafts.map(post => (
-            <div key={post.id} className="post">
+          {data?.drafts?.map(post => (
+            <div key={post?.id} className="post">
               <Post post={post} />
             </div>
           ))}
