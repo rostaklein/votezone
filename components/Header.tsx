@@ -36,16 +36,16 @@ const Header = () => {
             <h4>
               Welcome {currentUser.name} <Logout />
             </h4>
-            <Link href="/create">
+            <Link href="/create" passHref>
               <Button intent="primary">+ Create draft </Button>
             </Link>
           </>
         ) : (
           <>
-            <Link href="/signup">
+            <Link href="/signup" passHref>
               <Button outlined={isActive("/signup")}>Sign up</Button>
             </Link>{" "}
-            <Link href="/login">
+            <Link href="/login" passHref>
               <Button outlined={isActive("/login")}>Log In</Button>
             </Link>
           </>

@@ -9,7 +9,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "tsc",
+    "lint": "tsc && npm run lint:eslint",
+    "lint:eslint": "eslint './{pages,components}/**/*.{ts,tsx}'",
     "postinstall": "npm run generate",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus  && npm -s run generate:gql-types",
@@ -53,6 +54,8 @@
     "@types/node": "16.11.11",
     "@types/react": "17.0.37",
     "@types/styled-components": "^5.1.16",
+    "eslint": "8.4.0",
+    "eslint-config-next": "12.0.7",
     "prisma": "3.5.0",
     "ts-node": "10.4.0",
     "typescript": "4.5.2"

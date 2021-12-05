@@ -41,10 +41,8 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <title>NextJS Desktop Boilerplate</title>
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-          <link rel="stylesheet" href="static/styles/bulma.min.css" />
           <link
             href="https://unpkg.com/normalize.css@^7.0.0"
             rel="stylesheet"
