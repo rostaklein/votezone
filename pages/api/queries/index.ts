@@ -1,6 +1,8 @@
 import { nonNull, nullable, objectType, stringArg } from "nexus"
 import prisma from "../../../lib/prisma"
 
+export { Me } from "./me"
+
 export const Query = objectType({
   name: "Query",
   definition(t) {

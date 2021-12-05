@@ -76,6 +76,7 @@ export type Query = {
   drafts?: Maybe<Array<Maybe<Post>>>;
   feed?: Maybe<Array<Maybe<Post>>>;
   filterPosts?: Maybe<Array<Maybe<Post>>>;
+  me?: Maybe<User>;
   post?: Maybe<Post>;
 };
 

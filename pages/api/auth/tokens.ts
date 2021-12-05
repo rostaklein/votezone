@@ -1,3 +1,4 @@
+import { ApolloError } from "apollo-server-micro"
 import * as jwt from "jsonwebtoken"
 
 export type UserDetails = {
@@ -19,11 +20,11 @@ export const verifyToken = (token: string | undefined): Promise<UserDetails> =>
       throw new Error("No client secret provided in ENV.")
     }
     if (!token) {
-      throw new Error("No token provided")
+      throw new ApolloError("No token provided", "MISSING_TOKEN")
     }
     jwt.verify(token, process.env.CLIENT_SECRET, (err, decoded) => {
       if (err || !decoded) {
-        return reject(err)
+        return reject(new ApolloError(err.message, "INVALID_TOKEN"))
       }
 
       const userDetails = decoded as UserDetails

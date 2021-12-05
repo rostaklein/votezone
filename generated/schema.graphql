@@ -32,6 +32,7 @@ type Query {
   drafts: [Post]
   feed: [Post]
   filterPosts(searchString: String): [Post]
+  me: User
   post(postId: String!): Post
 }
 

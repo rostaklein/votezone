@@ -8,7 +8,7 @@ import cors from "micro-cors"
 import prisma from "../../lib/prisma"
 import { User } from "./types/User"
 import { AuthMutations, Mutation } from "./mutations"
-import { Query } from "./queries"
+import { Query, Me } from "./queries"
 import { MicroRequest } from "apollo-server-micro/dist/types"
 import { createContext } from "./context"
 
@@ -34,7 +34,7 @@ const Post = objectType({
 })
 
 export const schema = makeSchema({
-  types: [Query, Mutation, Post, User, GQLDate, ...AuthMutations],
+  types: [Query, Mutation, Post, User, GQLDate, Me, ...AuthMutations],
   outputs: {
     typegen: path.join(process.cwd(), "generated/nexus-typegen.ts"),
     schema: path.join(process.cwd(), "generated/schema.graphql"),

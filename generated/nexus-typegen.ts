@@ -96,6 +96,7 @@ export interface NexusGenFieldTypes {
     drafts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
     feed: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
     filterPosts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
+    me: NexusGenRootTypes['User'] | null; // User
     post: NexusGenRootTypes['Post'] | null; // Post
   }
   User: { // field return type
@@ -129,6 +130,7 @@ export interface NexusGenFieldTypeNames {
     drafts: 'Post'
     feed: 'Post'
     filterPosts: 'Post'
+    me: 'User'
     post: 'Post'
   }
   User: { // field return type name
