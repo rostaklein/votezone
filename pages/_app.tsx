@@ -8,7 +8,7 @@ import {
 import cookie from "cookie"
 import { AppContext, AppProps } from "next/app"
 import { MeQuery } from "../generated/gql-client"
-import { AppContextProvider } from "./context"
+import { AppContextProvider } from "../components/context"
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),

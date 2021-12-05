@@ -1,6 +1,6 @@
 import { Button } from "@blueprintjs/core"
 import Cookies from "js-cookie"
-import { useAppDispatch } from "../pages/context"
+import { useAppDispatch } from "./context"
 
 const Logout: React.FC = props => {
   const dispatch = useAppDispatch()

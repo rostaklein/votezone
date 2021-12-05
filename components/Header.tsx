@@ -1,7 +1,7 @@
 import { Button } from "@blueprintjs/core"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useAppState } from "../pages/context"
+import { useAppState } from "./context"
 import Logout from "./Logout"
 
 // function isActive(pathname) {

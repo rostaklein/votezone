@@ -8,7 +8,7 @@ import { Formik, FormikErrors, useFormik } from "formik"
 import { Button, InputGroup } from "@blueprintjs/core"
 import { useLoginMutation, useSignUpMutation } from "../generated/gql-client"
 import { ApolloError } from "@apollo/client"
-import { useAppDispatch } from "./context"
+import { useAppDispatch } from "../components/context"
 
 gql`
   mutation Login($loginEmail: String!, $loginPassword: String!) {
