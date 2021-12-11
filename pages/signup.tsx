@@ -1,4 +1,3 @@
-import Grid from "hedron"
 import React, { useState } from "react"
 import Layout from "../components/Layout"
 import Router, { useRouter } from "next/router"
@@ -6,6 +5,7 @@ import gql from "graphql-tag"
 import { useMutation } from "@apollo/client"
 import { Button, InputGroup } from "@blueprintjs/core"
 import { useSignUpMutation } from "../generated/gql-client"
+import { Col, Container, Row } from "react-grid-system"
 
 gql`
   mutation SignUp($name: String, $email: String!, $password: String!) {
@@ -42,45 +42,35 @@ function Signup(props) {
           }}
         >
           <h1>Signup user</h1>
-          <Grid.Provider>
-            <Grid.Bounds direction="vertical">
-              <Grid.Box>
-                <InputGroup
-                  autoFocus
-                  onChange={e => setName(e.target.value)}
-                  placeholder="Name"
-                  type="text"
-                  value={name}
-                />
-              </Grid.Box>
-              <Grid.Box>
-                <InputGroup
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="Email address"
-                  type="text"
-                  value={email}
-                />
-              </Grid.Box>
-              <Grid.Box>
-                <InputGroup
-                  onChange={e => setPwd(e.target.value)}
-                  placeholder="Password"
-                  type="password"
-                  value={pwd}
-                />
-              </Grid.Box>
-              <Grid.Bounds>
-                <Grid.Box width="half">
-                  <Button intent="primary" text="Signup" type="submit" fill />
-                </Grid.Box>
-                <Grid.Box width="half">
-                  <Button onClick={() => Router.push("/")} minimal fill>
-                    or Cancel
-                  </Button>
-                </Grid.Box>
-              </Grid.Bounds>
-            </Grid.Bounds>
-          </Grid.Provider>
+          <InputGroup
+            autoFocus
+            onChange={e => setName(e.target.value)}
+            placeholder="Name"
+            type="text"
+            value={name}
+          />
+          <InputGroup
+            onChange={e => setEmail(e.target.value)}
+            placeholder="Email address"
+            type="text"
+            value={email}
+          />
+          <InputGroup
+            onChange={e => setPwd(e.target.value)}
+            placeholder="Password"
+            type="password"
+            value={pwd}
+          />
+          <Row>
+            <Col sm={6}>
+              <Button intent="primary" text="Signup" type="submit" fill />
+            </Col>
+            <Col sm={6}>
+              <Button onClick={() => Router.push("/")} minimal fill>
+                or Cancel
+              </Button>
+            </Col>
+          </Row>
         </form>
       </div>
       <style jsx>{`

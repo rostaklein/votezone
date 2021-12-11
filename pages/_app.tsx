@@ -9,6 +9,7 @@ import cookie from "cookie"
 import { AppContext, AppProps } from "next/app"
 import { MeQuery } from "../generated/gql-client"
 import { AppContextProvider } from "../components/context"
+import { GlobalStyle } from "../components/globalStyles"
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -32,6 +33,7 @@ type Props = {
 const MyApp = ({ Component, pageProps, me }: AppProps & Props) => {
   return (
     <ApolloProvider client={client}>
+      <GlobalStyle />
       <AppContextProvider me={me?.data.me ?? null}>
         <Component {...pageProps} />
       </AppContextProvider>

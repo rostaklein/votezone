@@ -1,30 +1,5 @@
-import Document, {
-  DocumentProps,
-  Head,
-  Html,
-  Main,
-  NextScript,
-} from "next/document"
-import { createGlobalStyle, ServerStyleSheet } from "styled-components"
-
-const GlobalStyle = createGlobalStyle`
- html {
-    margin: 0;
-    padding: 0;
-  }
-  body {
-    margin: 0 auto;
-    padding: 0;
-    line-height: 1.47059;
-    font-weight: 400;
-    letter-spacing: -.022em;
-    font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    background-color: #fff;
-    color: #333;
-    font-style: normal;
-    padding-bottom: 80px;
-  }
-`
+import Document, { Head, Html, Main, NextScript } from "next/document"
+import { ServerStyleSheet } from "styled-components"
 
 // @ts-ignore
 export default class MyDocument extends Document {
@@ -55,7 +30,6 @@ export default class MyDocument extends Document {
             href="https://unpkg.com/@blueprintjs/icons@^3.0.0/lib/css/blueprint-icons.css"
             rel="stylesheet"
           />
-          <GlobalStyle />
         </Head>
         <body>
           <Main />

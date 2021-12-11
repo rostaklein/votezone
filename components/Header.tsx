@@ -54,7 +54,6 @@ const Header = () => {
       <style jsx>{`
         nav {
           display: flex;
-          padding: 2rem;
           align-items: center;
         }
 

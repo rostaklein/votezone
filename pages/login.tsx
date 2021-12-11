@@ -1,5 +1,5 @@
 import Cookies from "js-cookie"
-import Grid from "hedron"
+import { Container, Row, Col } from "react-grid-system"
 import React, { useState } from "react"
 import Layout from "../components/Layout"
 import Router, { useRouter } from "next/router"
@@ -83,42 +83,35 @@ function Login(props) {
     <Layout>
       <form onSubmit={handleSubmit}>
         <h1>Log In</h1>
-        <Grid.Provider>
-          <Grid.Bounds direction="vertical">
-            <Grid.Box>
-              <InputGroup
-                autoFocus
-                name="username"
-                onChange={handleChange}
-                placeholder="Name"
-                type="text"
-                value={values.username}
-              />
-            </Grid.Box>
-            <Grid.Box>
-              <InputGroup
-                onChange={handleChange}
-                placeholder="Password"
-                type="password"
-                name="password"
-                value={values.password}
-              />
-            </Grid.Box>
-            {touched.password && Object.keys(errors).length > 0 && (
-              <Grid.Box>{errors.password || errors.username}</Grid.Box>
-            )}
-            <Grid.Bounds>
-              <Grid.Box width="half">
-                <Button intent="primary" text="Log In" type="submit" fill />
-              </Grid.Box>
-              <Grid.Box width="half">
-                <Button onClick={() => Router.push("/")} minimal fill>
-                  or Cancel
-                </Button>
-              </Grid.Box>
-            </Grid.Bounds>
-          </Grid.Bounds>
-        </Grid.Provider>
+        <InputGroup
+          autoFocus
+          name="username"
+          onChange={handleChange}
+          placeholder="Name"
+          type="text"
+          value={values.username}
+        />
+
+        <InputGroup
+          onChange={handleChange}
+          placeholder="Password"
+          type="password"
+          name="password"
+          value={values.password}
+        />
+        {touched.password && Object.keys(errors).length > 0 && (
+          <div>{errors.password || errors.username}</div>
+        )}
+        <Row>
+          <Col md={6}>
+            <Button intent="primary" text="Log In" type="submit" fill />
+          </Col>
+          <Col md={6}>
+            <Button onClick={() => Router.push("/")} minimal fill>
+              or Cancel
+            </Button>
+          </Col>
+        </Row>
       </form>
     </Layout>
   )
