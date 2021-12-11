@@ -1,11 +1,11 @@
 import React, { useState } from "react"
 import Layout from "../components/Layout"
-import Router, { useRouter } from "next/router"
+import Router from "next/router"
 import gql from "graphql-tag"
-import { useMutation } from "@apollo/client"
-import { Button, InputGroup } from "@blueprintjs/core"
+import { Button } from "@blueprintjs/core"
 import { useSignUpMutation } from "../generated/gql-client"
-import { Col, Container, Row } from "react-grid-system"
+import { Col, Row } from "react-grid-system"
+import { StyledFormInput } from "../components/sharedStyles"
 
 gql`
   mutation SignUp($name: String, $email: String!, $password: String!) {
@@ -43,24 +43,27 @@ function Register(props) {
             }}
           >
             <h1>Register</h1>
-            <InputGroup
+            <StyledFormInput
               autoFocus
               onChange={e => setName(e.target.value)}
               placeholder="Name"
               type="text"
               className="mb-1"
+              leftIcon="user"
               value={name}
             />
-            <InputGroup
+            <StyledFormInput
               onChange={e => setEmail(e.target.value)}
               placeholder="Email address"
               type="text"
+              leftIcon="envelope"
               value={email}
             />
-            <InputGroup
+            <StyledFormInput
               onChange={e => setPwd(e.target.value)}
               placeholder="Password"
               type="password"
+              leftIcon="lock"
               value={pwd}
             />
             <Row>

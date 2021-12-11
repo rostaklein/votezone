@@ -8,6 +8,7 @@ import { Button, InputGroup } from "@blueprintjs/core"
 import { ApolloError } from "@apollo/client"
 import { useLoginMutation } from "../../generated/gql-client"
 import { useAppDispatch } from "../context"
+import { StyledFormInput } from "../sharedStyles"
 
 gql`
   mutation Login($loginEmail: String!, $loginPassword: String!) {
@@ -81,19 +82,21 @@ export const LoginForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <h1>Log In</h1>
-      <InputGroup
+      <StyledFormInput
         autoFocus
         name="username"
         onChange={handleChange}
         placeholder="Name"
         type="text"
         value={values.username}
+        leftIcon="user"
       />
-      <InputGroup
+      <StyledFormInput
         onChange={handleChange}
         placeholder="Password"
         type="password"
         name="password"
+        leftIcon="lock"
         value={values.password}
       />
       {touched.password && Object.keys(errors).length > 0 && (
