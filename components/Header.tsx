@@ -42,8 +42,8 @@ const Header = () => {
           </>
         ) : (
           <>
-            <Link href="/signup" passHref>
-              <Button outlined={isActive("/signup")}>Sign up</Button>
+            <Link href="/register" passHref>
+              <Button outlined={isActive("/register")}>Register</Button>
             </Link>{" "}
             <Link href="/login" passHref>
               <Button outlined={isActive("/login")}>Log In</Button>
