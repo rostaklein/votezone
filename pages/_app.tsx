@@ -15,6 +15,7 @@ import Head from "next/head"
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   uri: process.env.NEXT_PUBLIC_API_URL,
+  credentials: "same-origin",
 })
 
 export const ME_QUERY = gql`

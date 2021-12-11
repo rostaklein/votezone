@@ -37,7 +37,9 @@ const Post = ({ post }) => (
 )
 
 const Drafts = () => {
-  const { loading, error, data } = useDraftsQuery()
+  const { loading, error, data } = useDraftsQuery({
+    fetchPolicy: "cache-and-network",
+  })
 
   if (loading) {
     return <div>Loading ...</div>

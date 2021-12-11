@@ -26,14 +26,16 @@ export const Mutation = extendType({
         content: stringArg(),
         authorEmail: stringArg(),
       },
-      resolve: (_, { title, content, authorEmail }, ctx) => {
+      resolve: async (_, { title, content }, ctx) => {
+        const user = await ctx.getCurrentUser()
+
         return prisma.post.create({
           data: {
             title,
             content,
             published: false,
             author: {
-              connect: { email: authorEmail ?? undefined },
+              connect: { id: user.id },
             },
           },
         })
