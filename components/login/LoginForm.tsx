@@ -4,11 +4,11 @@ import React from "react"
 import Router from "next/router"
 import gql from "graphql-tag"
 import { FormikErrors, useFormik } from "formik"
-import { Button, InputGroup } from "@blueprintjs/core"
+import { Button } from "@blueprintjs/core"
 import { ApolloError } from "@apollo/client"
-import { useLoginMutation } from "../../generated/gql-client"
 import { useAppDispatch } from "../context"
 import { StyledFormInput } from "../sharedStyles"
+import { useLoginMutation } from "../../generated/gql-client"
 
 gql`
   mutation Login($loginEmail: String!, $loginPassword: String!) {

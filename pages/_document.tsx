@@ -13,6 +13,7 @@ export default class MyDocument extends Document {
           enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
         })
 
+      // @ts-ignore
       const initialProps = await Document.getInitialProps(ctx)
       return {
         ...initialProps,
