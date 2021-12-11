@@ -10,6 +10,7 @@ import { AppContext, AppProps } from "next/app"
 import { MeQuery } from "../generated/gql-client"
 import { AppContextProvider } from "../components/context"
 import { GlobalStyle } from "../components/globalStyles"
+import Head from "next/head"
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -33,6 +34,15 @@ type Props = {
 const MyApp = ({ Component, pageProps, me }: AppProps & Props) => {
   return (
     <ApolloProvider client={client}>
+      <Head>
+        <title>votezone</title>
+        <meta
+          property="og:title"
+          content="Lineage 2 Toplist Server | VOTEZONE"
+          key="title"
+        />
+        <link rel="icon" type="image/png" href="favicon.png" />
+      </Head>
       <GlobalStyle />
       <AppContextProvider me={me?.data.me ?? null}>
         <Component {...pageProps} />
