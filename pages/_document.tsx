@@ -47,6 +47,10 @@ export default class MyDocument extends Document {
             href="https://unpkg.com/@blueprintjs/icons@^3.0.0/lib/css/blueprint-icons.css"
             rel="stylesheet"
           />
+          <link
+            href="https://unpkg.com/@blueprintjs/datetime@^3.0.0/lib/css/blueprint-datetime.css"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />

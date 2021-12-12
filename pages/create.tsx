@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import Layout from "../components/Layout"
 import gql from "graphql-tag"
 import {
@@ -18,6 +18,7 @@ import {
   Toaster,
 } from "@blueprintjs/core"
 import { Col, Row } from "react-grid-system"
+import { DateInput, DatePicker } from "@blueprintjs/datetime"
 
 gql`
   query Chronicles {
@@ -51,6 +52,7 @@ const CreateServerSchema = Yup.object().shape({
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
+  openingAt: Yup.date(),
   chronicle: Yup.string().required("Required"),
   xp: Yup.number().required("Required"),
   sp: Yup.number().required("Required"),
@@ -73,6 +75,7 @@ function CreateServer() {
     dirty,
     resetForm,
     isValid,
+    setFieldValue,
   } = useFormik<FormValues>({
     initialValues: {},
     validationSchema: CreateServerSchema,
@@ -99,23 +102,56 @@ function CreateServer() {
     },
   })
 
+  const maxDate = useMemo(() => {
+    const maxDate = new Date()
+    maxDate.setMonth(new Date().getMonth() + 12)
+
+    return maxDate
+  }, [])
+
   return (
     <Layout>
       <form onSubmit={handleSubmit}>
         <h1>Add Server</h1>
-        <FormGroup label="Server Name" labelFor="name" labelInfo="(required)">
-          <StyledFormInput
-            autoFocus
-            name="name"
-            onChange={handleChange}
-            placeholder="Server Name"
-            type="text"
-            value={values.name}
-          />
-        </FormGroup>
-
-        <Row>
-          <Col sm={4}>
+        <Row gutterWidth={8}>
+          <Col sm={9}>
+            <FormGroup
+              label="Server Name"
+              labelFor="name"
+              labelInfo="(required)"
+            >
+              <StyledFormInput
+                autoFocus
+                name="name"
+                onChange={handleChange}
+                placeholder="Server Name"
+                type="text"
+                value={values.name}
+              />
+            </FormGroup>
+          </Col>
+          <Col sm={3}>
+            <FormGroup
+              label="Grand Opening"
+              labelFor="openingAt"
+              labelInfo="(GMT+0)"
+            >
+              <DateInput
+                onChange={selectedDate =>
+                  setFieldValue("openingAt", selectedDate)
+                }
+                fill
+                parseDate={date => (console.log(date), new Date(date))}
+                formatDate={date => `${date.toUTCString()}`}
+                timePrecision="minute"
+                timePickerProps={{ showArrowButtons: true }}
+                maxDate={maxDate}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row gutterWidth={8}>
+          <Col md={4}>
             <FormGroup label="Chronicle" labelFor="xp" labelInfo="(required)">
               <HTMLSelect fill onChange={handleChange} name="chronicle">
                 {chronicles?.chronicles?.map(chronicle => (
@@ -129,7 +165,7 @@ function CreateServer() {
               </HTMLSelect>
             </FormGroup>
           </Col>
-          <Col sm={8}>
+          <Col md={8}>
             <Row gutterWidth={8} align="end">
               {["XP", "SP", "Adena", "Drop", "Spoil"].map(rate => (
                 <Col key={rate}>
