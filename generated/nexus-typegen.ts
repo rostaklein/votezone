@@ -71,6 +71,14 @@ export interface NexusGenObjects {
     description?: string | null; // String
     id?: string | null; // String
     name?: string | null; // String
+    openingAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  ServerRates: { // root type
+    adena?: number | null; // Int
+    drop?: number | null; // Int
+    sp?: number | null; // Int
+    spoil?: number | null; // Int
+    xp?: number | null; // Int
   }
   User: { // root type
     email?: string | null; // String
@@ -119,6 +127,15 @@ export interface NexusGenFieldTypes {
     description: string | null; // String
     id: string | null; // String
     name: string | null; // String
+    openingAt: NexusGenScalars['DateTime'] | null; // DateTime
+    rates: NexusGenRootTypes['ServerRates'] | null; // ServerRates
+  }
+  ServerRates: { // field return type
+    adena: number | null; // Int
+    drop: number | null; // Int
+    sp: number | null; // Int
+    spoil: number | null; // Int
+    xp: number | null; // Int
   }
   User: { // field return type
     addedServers: Array<NexusGenRootTypes['Server'] | null> | null; // [Server]
@@ -158,6 +175,15 @@ export interface NexusGenFieldTypeNames {
     description: 'String'
     id: 'String'
     name: 'String'
+    openingAt: 'DateTime'
+    rates: 'ServerRates'
+  }
+  ServerRates: { // field return type name
+    adena: 'Int'
+    drop: 'Int'
+    sp: 'Int'
+    spoil: 'Int'
+    xp: 'Int'
   }
   User: { // field return type name
     addedServers: 'Server'

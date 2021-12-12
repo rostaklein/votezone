@@ -52,6 +52,16 @@ type Server {
   description: String
   id: String
   name: String
+  openingAt: DateTime
+  rates: ServerRates
+}
+
+type ServerRates {
+  adena: Int
+  drop: Int
+  sp: Int
+  spoil: Int
+  xp: Int
 }
 
 type User {
