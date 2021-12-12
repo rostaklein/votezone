@@ -29,6 +29,17 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CreateServerInput: { // input type
+    adena: number; // Int!
+    chronicle: string; // ID!
+    description: string; // String!
+    drop: number; // Int!
+    name: string; // String!
+    openingAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    sp: number; // Int!
+    spoil: number; // Int!
+    xp: number; // Int!
+  }
 }
 
 export interface NexusGenEnums {
@@ -159,9 +170,7 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     createServer: { // args
-      chronicle: string; // ID!
-      description?: string | null; // String
-      name: string; // String!
+      input: NexusGenInputs['CreateServerInput']; // CreateServerInput!
     }
     deleteServer: { // args
       id: string; // ID!
@@ -191,7 +200,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = never;
 

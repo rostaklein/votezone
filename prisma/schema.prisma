@@ -18,15 +18,28 @@ model User {
 }
 
 model Server {
-  id          String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  createdAt   DateTime  @default(now())
-  approved    Boolean   @default(false)
-  name        String
-  description String?
-  chronicle   Chronicle @relation(fields: [chronicleId], references: [id])
-  addedBy     User      @relation(fields: [addedById], references: [id])
-  addedById   String    @db.ObjectId
-  chronicleId String    @db.ObjectId
+  id            String      @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  createdAt     DateTime    @default(now())
+  openingAt     DateTime?
+  approved      Boolean     @default(false)
+  name          String
+  description   String?
+  chronicle     Chronicle   @relation(fields: [chronicleId], references: [id])
+  addedBy       User        @relation(fields: [addedById], references: [id])
+  addedById     String      @db.ObjectId
+  chronicleId   String      @db.ObjectId
+  rates         ServerRates @relation(fields: [serverRatesId], references: [id])
+  serverRatesId String      @db.ObjectId
+}
+
+model ServerRates {
+  id     String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  xp     Int
+  sp     Int
+  adena  Int
+  drop   Int
+  spoil  Int
+  Server Server[]
 }
 
 model Chronicle {

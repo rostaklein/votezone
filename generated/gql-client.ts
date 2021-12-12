@@ -30,6 +30,18 @@ export type Chronicle = {
   shortcut?: Maybe<Scalars['String']>;
 };
 
+export type CreateServerInput = {
+  adena: Scalars['Int'];
+  chronicle: Scalars['ID'];
+  description: Scalars['String'];
+  drop: Scalars['Int'];
+  name: Scalars['String'];
+  openingAt?: InputMaybe<Scalars['DateTime']>;
+  sp: Scalars['Int'];
+  spoil: Scalars['Int'];
+  xp: Scalars['Int'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createServer?: Maybe<Server>;
@@ -40,9 +52,7 @@ export type Mutation = {
 
 
 export type MutationCreateServerArgs = {
-  chronicle: Scalars['ID'];
-  description?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
+  input: CreateServerInput;
 };
 
 
@@ -108,14 +118,17 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined } | null | undefined };
 
+export type ChroniclesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ChroniclesQuery = { __typename?: 'Query', chronicles?: Array<{ __typename?: 'Chronicle', id?: string | null | undefined, name?: string | null | undefined, shortcut?: string | null | undefined } | null | undefined> | null | undefined };
+
 export type CreateServerMutationVariables = Exact<{
-  name: Scalars['String'];
-  chronicle: Scalars['ID'];
-  description?: InputMaybe<Scalars['String']>;
+  input: CreateServerInput;
 }>;
 
 
-export type CreateServerMutation = { __typename?: 'Mutation', createServer?: { __typename?: 'Server', name?: string | null | undefined, description?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined } | null | undefined };
+export type CreateServerMutation = { __typename?: 'Mutation', createServer?: { __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, description?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined } | null | undefined };
 
 export type ServerQueryVariables = Exact<{
   serverId: Scalars['ID'];
@@ -221,9 +234,46 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const ChroniclesDocument = gql`
+    query Chronicles {
+  chronicles {
+    id
+    name
+    shortcut
+  }
+}
+    `;
+
+/**
+ * __useChroniclesQuery__
+ *
+ * To run a query within a React component, call `useChroniclesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useChroniclesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useChroniclesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useChroniclesQuery(baseOptions?: Apollo.QueryHookOptions<ChroniclesQuery, ChroniclesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ChroniclesQuery, ChroniclesQueryVariables>(ChroniclesDocument, options);
+      }
+export function useChroniclesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChroniclesQuery, ChroniclesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ChroniclesQuery, ChroniclesQueryVariables>(ChroniclesDocument, options);
+        }
+export type ChroniclesQueryHookResult = ReturnType<typeof useChroniclesQuery>;
+export type ChroniclesLazyQueryHookResult = ReturnType<typeof useChroniclesLazyQuery>;
+export type ChroniclesQueryResult = Apollo.QueryResult<ChroniclesQuery, ChroniclesQueryVariables>;
 export const CreateServerDocument = gql`
-    mutation CreateServer($name: String!, $chronicle: ID!, $description: String) {
-  createServer(name: $name, chronicle: $chronicle, description: $description) {
+    mutation CreateServer($input: CreateServerInput!) {
+  createServer(input: $input) {
+    id
     name
     description
     chronicle {
@@ -247,9 +297,7 @@ export type CreateServerMutationFn = Apollo.MutationFunction<CreateServerMutatio
  * @example
  * const [createServerMutation, { data, loading, error }] = useCreateServerMutation({
  *   variables: {
- *      name: // value for 'name'
- *      chronicle: // value for 'chronicle'
- *      description: // value for 'description'
+ *      input: // value for 'input'
  *   },
  * });
  */

@@ -1,6 +1,21 @@
 import { ApolloError } from "apollo-server-micro"
-import { stringArg, nonNull, extendType, idArg } from "nexus"
+import { nonNull, extendType, idArg, inputObjectType } from "nexus"
 import prisma from "../../../../lib/prisma"
+
+export const CreateServerInputType = inputObjectType({
+  name: "CreateServerInput",
+  definition(t) {
+    t.nonNull.string("name")
+    t.nonNull.string("description")
+    t.date("openingAt")
+    t.nonNull.id("chronicle")
+    t.nonNull.int("xp")
+    t.nonNull.int("sp")
+    t.nonNull.int("drop")
+    t.nonNull.int("spoil")
+    t.nonNull.int("adena")
+  },
+})
 
 export const ServerMutations = extendType({
   type: "Mutation",
@@ -8,17 +23,21 @@ export const ServerMutations = extendType({
     t.field("createServer", {
       type: "Server",
       args: {
-        name: nonNull(stringArg()),
-        description: stringArg(),
-        chronicle: nonNull(idArg()),
+        input: nonNull("CreateServerInput"),
       },
-      resolve: async (_, args, ctx) => {
+      resolve: async (_, { input }, ctx) => {
         const user = await ctx.getCurrentUser()
+
+        const { name, description, chronicle, openingAt, ...rates } = input
         return prisma.server.create({
           data: {
-            name: args.name,
-            description: args.description,
-            chronicle: { connect: { id: args.chronicle } },
+            name,
+            description,
+            openingAt,
+            rates: {
+              create: rates,
+            },
+            chronicle: { connect: { id: chronicle } },
             addedBy: { connect: { id: user.id } },
             approved: true,
           },
