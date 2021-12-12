@@ -1,46 +1,25 @@
-import * as Path from "path"
 import { ApolloServer } from "apollo-server-micro"
 import { DateTimeResolver } from "graphql-scalars"
 import { NextApiHandler } from "next"
-import { asNexusMethod, makeSchema, objectType } from "nexus"
+import { asNexusMethod, makeSchema } from "nexus"
 import path from "path"
 import cors from "micro-cors"
-import prisma from "../../lib/prisma"
-import { User } from "./types/User"
-import { AuthMutations, Mutation } from "./mutations"
+import { Mutations } from "./mutations"
 import { Query, Me } from "./queries"
 import { MicroRequest } from "apollo-server-micro/dist/types"
 import { createContext } from "./context"
+import { Types } from "./types"
 
 export const GQLDate = asNexusMethod(DateTimeResolver, "date")
 
-const Post = objectType({
-  name: "Post",
-  definition(t) {
-    t.string("id")
-    t.string("title")
-    t.nullable.string("content")
-    t.boolean("published")
-    t.nullable.field("author", {
-      type: "User",
-      resolve: parent =>
-        prisma.post
-          .findUnique({
-            where: { id: parent.id ?? undefined },
-          })
-          .author(),
-    })
-  },
-})
-
 export const schema = makeSchema({
-  types: [Query, Mutation, Post, User, GQLDate, Me, ...AuthMutations],
+  types: [Query, GQLDate, Me, ...Mutations, ...Types],
   outputs: {
     typegen: path.join(process.cwd(), "generated/nexus-typegen.ts"),
     schema: path.join(process.cwd(), "generated/schema.graphql"),
   },
   contextType: {
-    module: Path.join(__dirname, "./context.ts"),
+    module: path.join(process.cwd(), "pages/api/context.ts"),
     alias: "Context",
     export: "Context",
   },

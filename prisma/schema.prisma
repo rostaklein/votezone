@@ -9,18 +9,29 @@ generator client {
 }
 
 model User {
-  id       String  @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  email    String  @unique
-  password String
-  name     String?
-  posts    Post[]
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  email     String   @unique
+  password  String
+  name      String?
+  servers   Server[]
 }
 
-model Post {
-  id        String  @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  published Boolean @default(false)
-  title     String
-  content   String?
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  String  @db.ObjectId
+model Server {
+  id          String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  createdAt   DateTime  @default(now())
+  approved    Boolean   @default(false)
+  name        String
+  description String?
+  chronicle   Chronicle @relation(fields: [chronicleId], references: [id])
+  addedBy     User      @relation(fields: [addedById], references: [id])
+  addedById   String    @db.ObjectId
+  chronicleId String    @db.ObjectId
+}
+
+model Chronicle {
+  id       String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name     String
+  shortcut String?
+  Server   Server[]
 }

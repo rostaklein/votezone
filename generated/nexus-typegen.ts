@@ -48,14 +48,18 @@ export interface NexusGenObjects {
     token?: string | null; // String
     user?: NexusGenRootTypes['User'] | null; // User
   }
-  Mutation: {};
-  Post: { // root type
-    content?: string | null; // String
+  Chronicle: { // root type
     id?: string | null; // String
-    published?: boolean | null; // Boolean
-    title?: string | null; // String
+    name?: string | null; // String
+    shortcut?: string | null; // String
   }
+  Mutation: {};
   Query: {};
+  Server: { // root type
+    description?: string | null; // String
+    id?: string | null; // String
+    name?: string | null; // String
+  }
   User: { // root type
     email?: string | null; // String
     id?: string | null; // String
@@ -78,32 +82,32 @@ export interface NexusGenFieldTypes {
     token: string | null; // String
     user: NexusGenRootTypes['User'] | null; // User
   }
+  Chronicle: { // field return type
+    id: string | null; // String
+    name: string | null; // String
+    shortcut: string | null; // String
+  }
   Mutation: { // field return type
-    createDraft: NexusGenRootTypes['Post'] | null; // Post
-    deletePost: NexusGenRootTypes['Post'] | null; // Post
+    createServer: NexusGenRootTypes['Server'] | null; // Server
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
-    publish: NexusGenRootTypes['Post'] | null; // Post
     register: NexusGenRootTypes['User'] | null; // User
   }
-  Post: { // field return type
-    author: NexusGenRootTypes['User'] | null; // User
-    content: string | null; // String
-    id: string | null; // String
-    published: boolean | null; // Boolean
-    title: string | null; // String
-  }
   Query: { // field return type
-    drafts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
-    feed: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
-    filterPosts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
+    chronicles: Array<NexusGenRootTypes['Chronicle'] | null> | null; // [Chronicle]
+    feed: Array<NexusGenRootTypes['Server'] | null> | null; // [Server]
     me: NexusGenRootTypes['User'] | null; // User
-    post: NexusGenRootTypes['Post'] | null; // Post
+  }
+  Server: { // field return type
+    chronicle: NexusGenRootTypes['Chronicle'] | null; // Chronicle
+    description: string | null; // String
+    id: string | null; // String
+    name: string | null; // String
   }
   User: { // field return type
+    addedServers: Array<NexusGenRootTypes['Server'] | null> | null; // [Server]
     email: string | null; // String
     id: string | null; // String
     name: string | null; // String
-    posts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
   }
 }
 
@@ -112,64 +116,50 @@ export interface NexusGenFieldTypeNames {
     token: 'String'
     user: 'User'
   }
+  Chronicle: { // field return type name
+    id: 'String'
+    name: 'String'
+    shortcut: 'String'
+  }
   Mutation: { // field return type name
-    createDraft: 'Post'
-    deletePost: 'Post'
+    createServer: 'Server'
     login: 'AuthPayload'
-    publish: 'Post'
     register: 'User'
   }
-  Post: { // field return type name
-    author: 'User'
-    content: 'String'
-    id: 'String'
-    published: 'Boolean'
-    title: 'String'
-  }
   Query: { // field return type name
-    drafts: 'Post'
-    feed: 'Post'
-    filterPosts: 'Post'
+    chronicles: 'Chronicle'
+    feed: 'Server'
     me: 'User'
-    post: 'Post'
+  }
+  Server: { // field return type name
+    chronicle: 'Chronicle'
+    description: 'String'
+    id: 'String'
+    name: 'String'
   }
   User: { // field return type name
+    addedServers: 'Server'
     email: 'String'
     id: 'String'
     name: 'String'
-    posts: 'Post'
   }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
-    createDraft: { // args
-      authorEmail?: string | null; // String
-      content?: string | null; // String
-      title: string; // String!
-    }
-    deletePost: { // args
-      postId?: string | null; // String
+    createServer: { // args
+      chronicle: string; // ID!
+      description?: string | null; // String
+      name: string; // String!
     }
     login: { // args
       email: string; // String!
       password: string; // String!
     }
-    publish: { // args
-      postId?: string | null; // String
-    }
     register: { // args
       email: string; // String!
       name?: string | null; // String
       password: string; // String!
-    }
-  }
-  Query: {
-    filterPosts: { // args
-      searchString?: string | null; // String
-    }
-    post: { // args
-      postId: string; // String!
     }
   }
 }

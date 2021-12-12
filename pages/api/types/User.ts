@@ -7,14 +7,12 @@ export const User = objectType({
     t.string("id")
     t.string("name")
     t.string("email")
-    t.list.field("posts", {
-      type: "Post",
+    t.list.field("addedServers", {
+      type: "Server",
       resolve: parent =>
         prisma.user
-          .findUnique({
-            where: { id: parent.id ?? undefined },
-          })
-          .posts(),
+          .findFirst({ where: { id: parent.id ?? undefined } })
+          .servers(),
     })
   },
 })
