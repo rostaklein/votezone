@@ -7,6 +7,14 @@ export const Server = objectType({
     t.string("id")
     t.string("name")
     t.string("description")
+    t.date("createdAt")
+    t.field("addedBy", {
+      type: "User",
+      resolve: parent =>
+        prisma.server
+          .findUnique({ where: { id: parent.id ?? undefined } })
+          .addedBy(),
+    })
     t.field("chronicle", {
       type: "Chronicle",
       resolve: parent =>

@@ -32,6 +32,6 @@ model Server {
 model Chronicle {
   id       String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
   name     String
-  shortcut String?
+  shortcut String?  @unique
   Server   Server[]
 }

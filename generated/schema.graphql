@@ -20,18 +20,23 @@ scalar DateTime
 
 type Mutation {
   createServer(chronicle: ID!, description: String, name: String!): Server
+  deleteServer(id: ID!): Server
   login(email: String!, password: String!): AuthPayload
   register(email: String!, name: String, password: String!): User
 }
 
 type Query {
+  approvedServers: [Server]
   chronicles: [Chronicle]
-  feed: [Server]
   me: User
+  server(id: ID!): Server
+  unapprovedServers: [Server]
 }
 
 type Server {
+  addedBy: User
   chronicle: Chronicle
+  createdAt: DateTime
   description: String
   id: String
   name: String

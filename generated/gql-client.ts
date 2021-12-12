@@ -23,25 +23,31 @@ export type AuthPayload = {
   user?: Maybe<User>;
 };
 
+export type Chronicle = {
+  __typename?: 'Chronicle';
+  id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  shortcut?: Maybe<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createDraft?: Maybe<Post>;
-  deletePost?: Maybe<Post>;
+  createServer?: Maybe<Server>;
+  deleteServer?: Maybe<Server>;
   login?: Maybe<AuthPayload>;
-  publish?: Maybe<Post>;
   register?: Maybe<User>;
 };
 
 
-export type MutationCreateDraftArgs = {
-  authorEmail?: InputMaybe<Scalars['String']>;
-  content?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
+export type MutationCreateServerArgs = {
+  chronicle: Scalars['ID'];
+  description?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
 
-export type MutationDeletePostArgs = {
-  postId?: InputMaybe<Scalars['String']>;
+export type MutationDeleteServerArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -51,51 +57,42 @@ export type MutationLoginArgs = {
 };
 
 
-export type MutationPublishArgs = {
-  postId?: InputMaybe<Scalars['String']>;
-};
-
-
 export type MutationRegisterArgs = {
   email: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
   password: Scalars['String'];
 };
 
-export type Post = {
-  __typename?: 'Post';
-  author?: Maybe<User>;
-  content?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  published?: Maybe<Scalars['Boolean']>;
-  title?: Maybe<Scalars['String']>;
-};
-
 export type Query = {
   __typename?: 'Query';
-  drafts?: Maybe<Array<Maybe<Post>>>;
-  feed?: Maybe<Array<Maybe<Post>>>;
-  filterPosts?: Maybe<Array<Maybe<Post>>>;
+  approvedServers?: Maybe<Array<Maybe<Server>>>;
+  chronicles?: Maybe<Array<Maybe<Chronicle>>>;
   me?: Maybe<User>;
-  post?: Maybe<Post>;
+  server?: Maybe<Server>;
+  unapprovedServers?: Maybe<Array<Maybe<Server>>>;
 };
 
 
-export type QueryFilterPostsArgs = {
-  searchString?: InputMaybe<Scalars['String']>;
+export type QueryServerArgs = {
+  id: Scalars['ID'];
 };
 
-
-export type QueryPostArgs = {
-  postId: Scalars['String'];
+export type Server = {
+  __typename?: 'Server';
+  addedBy?: Maybe<User>;
+  chronicle?: Maybe<Chronicle>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type User = {
   __typename?: 'User';
+  addedServers?: Maybe<Array<Maybe<Server>>>;
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  posts?: Maybe<Array<Maybe<Post>>>;
 };
 
 export type LoginMutationVariables = Exact<{
@@ -111,45 +108,33 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined } | null | undefined };
 
-export type CreateDraftMutationVariables = Exact<{
-  title: Scalars['String'];
-  content?: InputMaybe<Scalars['String']>;
-  authorEmail: Scalars['String'];
+export type CreateServerMutationVariables = Exact<{
+  name: Scalars['String'];
+  chronicle: Scalars['ID'];
+  description?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type CreateDraftMutation = { __typename?: 'Mutation', createDraft?: { __typename?: 'Post', id?: string | null | undefined, title?: string | null | undefined, content?: string | null | undefined, published?: boolean | null | undefined, author?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined };
+export type CreateServerMutation = { __typename?: 'Mutation', createServer?: { __typename?: 'Server', name?: string | null | undefined, description?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined } | null | undefined };
 
-export type DraftsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type DraftsQuery = { __typename?: 'Query', drafts?: Array<{ __typename?: 'Post', id?: string | null | undefined, title?: string | null | undefined, content?: string | null | undefined, published?: boolean | null | undefined, author?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined };
-
-export type FeedQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FeedQuery = { __typename?: 'Query', feed?: Array<{ __typename?: 'Post', id?: string | null | undefined, title?: string | null | undefined, content?: string | null | undefined, published?: boolean | null | undefined, author?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined };
-
-export type PostQueryVariables = Exact<{
-  postId: Scalars['String'];
+export type ServerQueryVariables = Exact<{
+  serverId: Scalars['ID'];
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id?: string | null | undefined, title?: string | null | undefined, content?: string | null | undefined, published?: boolean | null | undefined, author?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined };
+export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id?: string | null | undefined, description?: string | null | undefined, createdAt?: any | null | undefined, name?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined } | null | undefined };
 
-export type PublishPostMutationVariables = Exact<{
-  postId: Scalars['String'];
+export type DeleteServerMutationVariables = Exact<{
+  serverId: Scalars['ID'];
 }>;
 
 
-export type PublishPostMutation = { __typename?: 'Mutation', publish?: { __typename?: 'Post', id?: string | null | undefined, title?: string | null | undefined, content?: string | null | undefined, published?: boolean | null | undefined, author?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined };
+export type DeleteServerMutation = { __typename?: 'Mutation', deleteServer?: { __typename?: 'Server', id?: string | null | undefined } | null | undefined };
 
-export type DeletePostMutationVariables = Exact<{
-  postId: Scalars['String'];
-}>;
+export type ApprovedServersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DeletePostMutation = { __typename?: 'Mutation', deletePost?: { __typename?: 'Post', id?: string | null | undefined, title?: string | null | undefined, content?: string | null | undefined, published?: boolean | null | undefined, author?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined };
+export type ApprovedServersQuery = { __typename?: 'Query', approvedServers?: Array<{ __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, description?: string | null | undefined, createdAt?: any | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined, chronicle?: { __typename?: 'Chronicle', shortcut?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined };
 
 export type SignUpMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']>;
@@ -236,252 +221,165 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const CreateDraftDocument = gql`
-    mutation CreateDraft($title: String!, $content: String, $authorEmail: String!) {
-  createDraft(title: $title, content: $content, authorEmail: $authorEmail) {
-    id
-    title
-    content
-    published
-    author {
-      id
+export const CreateServerDocument = gql`
+    mutation CreateServer($name: String!, $chronicle: ID!, $description: String) {
+  createServer(name: $name, chronicle: $chronicle, description: $description) {
+    name
+    description
+    chronicle {
       name
     }
   }
 }
     `;
-export type CreateDraftMutationFn = Apollo.MutationFunction<CreateDraftMutation, CreateDraftMutationVariables>;
+export type CreateServerMutationFn = Apollo.MutationFunction<CreateServerMutation, CreateServerMutationVariables>;
 
 /**
- * __useCreateDraftMutation__
+ * __useCreateServerMutation__
  *
- * To run a mutation, you first call `useCreateDraftMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateDraftMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateServerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateServerMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createDraftMutation, { data, loading, error }] = useCreateDraftMutation({
+ * const [createServerMutation, { data, loading, error }] = useCreateServerMutation({
  *   variables: {
- *      title: // value for 'title'
- *      content: // value for 'content'
- *      authorEmail: // value for 'authorEmail'
+ *      name: // value for 'name'
+ *      chronicle: // value for 'chronicle'
+ *      description: // value for 'description'
  *   },
  * });
  */
-export function useCreateDraftMutation(baseOptions?: Apollo.MutationHookOptions<CreateDraftMutation, CreateDraftMutationVariables>) {
+export function useCreateServerMutation(baseOptions?: Apollo.MutationHookOptions<CreateServerMutation, CreateServerMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateDraftMutation, CreateDraftMutationVariables>(CreateDraftDocument, options);
+        return Apollo.useMutation<CreateServerMutation, CreateServerMutationVariables>(CreateServerDocument, options);
       }
-export type CreateDraftMutationHookResult = ReturnType<typeof useCreateDraftMutation>;
-export type CreateDraftMutationResult = Apollo.MutationResult<CreateDraftMutation>;
-export type CreateDraftMutationOptions = Apollo.BaseMutationOptions<CreateDraftMutation, CreateDraftMutationVariables>;
-export const DraftsDocument = gql`
-    query Drafts {
-  drafts {
+export type CreateServerMutationHookResult = ReturnType<typeof useCreateServerMutation>;
+export type CreateServerMutationResult = Apollo.MutationResult<CreateServerMutation>;
+export type CreateServerMutationOptions = Apollo.BaseMutationOptions<CreateServerMutation, CreateServerMutationVariables>;
+export const ServerDocument = gql`
+    query Server($serverId: ID!) {
+  server(id: $serverId) {
     id
-    title
-    content
-    published
-    author {
-      id
+    chronicle {
       name
     }
+    addedBy {
+      name
+    }
+    description
+    createdAt
+    name
   }
 }
     `;
 
 /**
- * __useDraftsQuery__
+ * __useServerQuery__
  *
- * To run a query within a React component, call `useDraftsQuery` and pass it any options that fit your needs.
- * When your component renders, `useDraftsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useServerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServerQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useDraftsQuery({
+ * const { data, loading, error } = useServerQuery({
  *   variables: {
+ *      serverId: // value for 'serverId'
  *   },
  * });
  */
-export function useDraftsQuery(baseOptions?: Apollo.QueryHookOptions<DraftsQuery, DraftsQueryVariables>) {
+export function useServerQuery(baseOptions: Apollo.QueryHookOptions<ServerQuery, ServerQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<DraftsQuery, DraftsQueryVariables>(DraftsDocument, options);
+        return Apollo.useQuery<ServerQuery, ServerQueryVariables>(ServerDocument, options);
       }
-export function useDraftsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DraftsQuery, DraftsQueryVariables>) {
+export function useServerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ServerQuery, ServerQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<DraftsQuery, DraftsQueryVariables>(DraftsDocument, options);
+          return Apollo.useLazyQuery<ServerQuery, ServerQueryVariables>(ServerDocument, options);
         }
-export type DraftsQueryHookResult = ReturnType<typeof useDraftsQuery>;
-export type DraftsLazyQueryHookResult = ReturnType<typeof useDraftsLazyQuery>;
-export type DraftsQueryResult = Apollo.QueryResult<DraftsQuery, DraftsQueryVariables>;
-export const FeedDocument = gql`
-    query Feed {
-  feed {
+export type ServerQueryHookResult = ReturnType<typeof useServerQuery>;
+export type ServerLazyQueryHookResult = ReturnType<typeof useServerLazyQuery>;
+export type ServerQueryResult = Apollo.QueryResult<ServerQuery, ServerQueryVariables>;
+export const DeleteServerDocument = gql`
+    mutation DeleteServer($serverId: ID!) {
+  deleteServer(id: $serverId) {
     id
-    title
-    content
-    published
-    author {
-      id
-      name
-    }
   }
 }
     `;
+export type DeleteServerMutationFn = Apollo.MutationFunction<DeleteServerMutation, DeleteServerMutationVariables>;
 
 /**
- * __useFeedQuery__
+ * __useDeleteServerMutation__
  *
- * To run a query within a React component, call `useFeedQuery` and pass it any options that fit your needs.
- * When your component renders, `useFeedQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFeedQuery({
- *   variables: {
- *   },
- * });
- */
-export function useFeedQuery(baseOptions?: Apollo.QueryHookOptions<FeedQuery, FeedQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FeedQuery, FeedQueryVariables>(FeedDocument, options);
-      }
-export function useFeedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FeedQuery, FeedQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FeedQuery, FeedQueryVariables>(FeedDocument, options);
-        }
-export type FeedQueryHookResult = ReturnType<typeof useFeedQuery>;
-export type FeedLazyQueryHookResult = ReturnType<typeof useFeedLazyQuery>;
-export type FeedQueryResult = Apollo.QueryResult<FeedQuery, FeedQueryVariables>;
-export const PostDocument = gql`
-    query Post($postId: String!) {
-  post(postId: $postId) {
-    id
-    title
-    content
-    published
-    author {
-      id
-      name
-    }
-  }
-}
-    `;
-
-/**
- * __usePostQuery__
- *
- * To run a query within a React component, call `usePostQuery` and pass it any options that fit your needs.
- * When your component renders, `usePostQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePostQuery({
- *   variables: {
- *      postId: // value for 'postId'
- *   },
- * });
- */
-export function usePostQuery(baseOptions: Apollo.QueryHookOptions<PostQuery, PostQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PostQuery, PostQueryVariables>(PostDocument, options);
-      }
-export function usePostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostQuery, PostQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PostQuery, PostQueryVariables>(PostDocument, options);
-        }
-export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
-export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
-export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
-export const PublishPostDocument = gql`
-    mutation PublishPost($postId: String!) {
-  publish(postId: $postId) {
-    id
-    title
-    content
-    published
-    author {
-      id
-      name
-    }
-  }
-}
-    `;
-export type PublishPostMutationFn = Apollo.MutationFunction<PublishPostMutation, PublishPostMutationVariables>;
-
-/**
- * __usePublishPostMutation__
- *
- * To run a mutation, you first call `usePublishPostMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePublishPostMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteServerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteServerMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [publishPostMutation, { data, loading, error }] = usePublishPostMutation({
+ * const [deleteServerMutation, { data, loading, error }] = useDeleteServerMutation({
  *   variables: {
- *      postId: // value for 'postId'
+ *      serverId: // value for 'serverId'
  *   },
  * });
  */
-export function usePublishPostMutation(baseOptions?: Apollo.MutationHookOptions<PublishPostMutation, PublishPostMutationVariables>) {
+export function useDeleteServerMutation(baseOptions?: Apollo.MutationHookOptions<DeleteServerMutation, DeleteServerMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PublishPostMutation, PublishPostMutationVariables>(PublishPostDocument, options);
+        return Apollo.useMutation<DeleteServerMutation, DeleteServerMutationVariables>(DeleteServerDocument, options);
       }
-export type PublishPostMutationHookResult = ReturnType<typeof usePublishPostMutation>;
-export type PublishPostMutationResult = Apollo.MutationResult<PublishPostMutation>;
-export type PublishPostMutationOptions = Apollo.BaseMutationOptions<PublishPostMutation, PublishPostMutationVariables>;
-export const DeletePostDocument = gql`
-    mutation DeletePost($postId: String!) {
-  deletePost(postId: $postId) {
+export type DeleteServerMutationHookResult = ReturnType<typeof useDeleteServerMutation>;
+export type DeleteServerMutationResult = Apollo.MutationResult<DeleteServerMutation>;
+export type DeleteServerMutationOptions = Apollo.BaseMutationOptions<DeleteServerMutation, DeleteServerMutationVariables>;
+export const ApprovedServersDocument = gql`
+    query ApprovedServers {
+  approvedServers {
     id
-    title
-    content
-    published
-    author {
-      id
+    name
+    description
+    addedBy {
       name
     }
+    chronicle {
+      shortcut
+    }
+    createdAt
   }
 }
     `;
-export type DeletePostMutationFn = Apollo.MutationFunction<DeletePostMutation, DeletePostMutationVariables>;
 
 /**
- * __useDeletePostMutation__
+ * __useApprovedServersQuery__
  *
- * To run a mutation, you first call `useDeletePostMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeletePostMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useApprovedServersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useApprovedServersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [deletePostMutation, { data, loading, error }] = useDeletePostMutation({
+ * const { data, loading, error } = useApprovedServersQuery({
  *   variables: {
- *      postId: // value for 'postId'
  *   },
  * });
  */
-export function useDeletePostMutation(baseOptions?: Apollo.MutationHookOptions<DeletePostMutation, DeletePostMutationVariables>) {
+export function useApprovedServersQuery(baseOptions?: Apollo.QueryHookOptions<ApprovedServersQuery, ApprovedServersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeletePostMutation, DeletePostMutationVariables>(DeletePostDocument, options);
+        return Apollo.useQuery<ApprovedServersQuery, ApprovedServersQueryVariables>(ApprovedServersDocument, options);
       }
-export type DeletePostMutationHookResult = ReturnType<typeof useDeletePostMutation>;
-export type DeletePostMutationResult = Apollo.MutationResult<DeletePostMutation>;
-export type DeletePostMutationOptions = Apollo.BaseMutationOptions<DeletePostMutation, DeletePostMutationVariables>;
+export function useApprovedServersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ApprovedServersQuery, ApprovedServersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ApprovedServersQuery, ApprovedServersQueryVariables>(ApprovedServersDocument, options);
+        }
+export type ApprovedServersQueryHookResult = ReturnType<typeof useApprovedServersQuery>;
+export type ApprovedServersLazyQueryHookResult = ReturnType<typeof useApprovedServersLazyQuery>;
+export type ApprovedServersQueryResult = Apollo.QueryResult<ApprovedServersQuery, ApprovedServersQueryVariables>;
 export const SignUpDocument = gql`
     mutation SignUp($name: String, $email: String!, $password: String!) {
   register(name: $name, email: $email, password: $password) {

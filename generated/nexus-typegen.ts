@@ -56,6 +56,7 @@ export interface NexusGenObjects {
   Mutation: {};
   Query: {};
   Server: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     description?: string | null; // String
     id?: string | null; // String
     name?: string | null; // String
@@ -89,16 +90,21 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     createServer: NexusGenRootTypes['Server'] | null; // Server
+    deleteServer: NexusGenRootTypes['Server'] | null; // Server
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     register: NexusGenRootTypes['User'] | null; // User
   }
   Query: { // field return type
+    approvedServers: Array<NexusGenRootTypes['Server'] | null> | null; // [Server]
     chronicles: Array<NexusGenRootTypes['Chronicle'] | null> | null; // [Chronicle]
-    feed: Array<NexusGenRootTypes['Server'] | null> | null; // [Server]
     me: NexusGenRootTypes['User'] | null; // User
+    server: NexusGenRootTypes['Server'] | null; // Server
+    unapprovedServers: Array<NexusGenRootTypes['Server'] | null> | null; // [Server]
   }
   Server: { // field return type
+    addedBy: NexusGenRootTypes['User'] | null; // User
     chronicle: NexusGenRootTypes['Chronicle'] | null; // Chronicle
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     description: string | null; // String
     id: string | null; // String
     name: string | null; // String
@@ -123,16 +129,21 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     createServer: 'Server'
+    deleteServer: 'Server'
     login: 'AuthPayload'
     register: 'User'
   }
   Query: { // field return type name
+    approvedServers: 'Server'
     chronicles: 'Chronicle'
-    feed: 'Server'
     me: 'User'
+    server: 'Server'
+    unapprovedServers: 'Server'
   }
   Server: { // field return type name
+    addedBy: 'User'
     chronicle: 'Chronicle'
+    createdAt: 'DateTime'
     description: 'String'
     id: 'String'
     name: 'String'
@@ -152,6 +163,9 @@ export interface NexusGenArgTypes {
       description?: string | null; // String
       name: string; // String!
     }
+    deleteServer: { // args
+      id: string; // ID!
+    }
     login: { // args
       email: string; // String!
       password: string; // String!
@@ -160,6 +174,11 @@ export interface NexusGenArgTypes {
       email: string; // String!
       name?: string | null; // String
       password: string; // String!
+    }
+  }
+  Query: {
+    server: { // args
+      id: string; // ID!
     }
   }
 }

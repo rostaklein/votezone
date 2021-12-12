@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from "@prisma/client"
+import { hashPwd } from "../pages/api/auth/hashPassword"
 
 const prisma = new PrismaClient()
 
@@ -6,7 +7,7 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: "Admin",
     email: "admin",
-    password: "admin",
+    password: hashPwd("admin"),
   },
 ]
 const chronicleData: Prisma.ChronicleCreateInput[] = [

@@ -49,7 +49,7 @@ const Header = () => {
                   Welcome {currentUser.name} <Logout />
                 </h4>
                 <Link href="/create" passHref>
-                  <Button intent="primary">+ Create draft </Button>
+                  <Button intent="primary">Add new server</Button>
                 </Link>
               </>
             ) : (
