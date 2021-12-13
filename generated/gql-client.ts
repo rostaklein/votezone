@@ -122,12 +122,12 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'AuthPayload', token?: string | null | undefined, user?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined } | null | undefined } | null | undefined };
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'AuthPayload', token?: string | null | undefined, user?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined, addedServers?: Array<{ __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, createdAt?: any | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined } | null | undefined };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined, addedServers?: Array<{ __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, createdAt?: any | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type ChroniclesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -177,6 +177,11 @@ export const LoginDocument = gql`
       id
       name
       email
+      addedServers {
+        id
+        name
+        createdAt
+      }
     }
     token
   }
@@ -215,6 +220,11 @@ export const MeDocument = gql`
     id
     name
     email
+    addedServers {
+      id
+      name
+      createdAt
+    }
   }
 }
     `;

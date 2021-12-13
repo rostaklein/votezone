@@ -42,7 +42,9 @@ export const Menu: React.FC = () => {
           <Link href="/profile" passHref>
             <MenuItem icon="user" text="Profile"></MenuItem>
           </Link>
-          <MenuItem icon="list-detail-view" text="My Servers"></MenuItem>
+          <Link href="/my-servers" passHref>
+            <MenuItem icon="list-detail-view" text="My Servers"></MenuItem>
+          </Link>
           <MenuItem icon="log-out" text="Log Out" onClick={logOut}></MenuItem>
         </>
       ) : (

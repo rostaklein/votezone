@@ -25,6 +25,11 @@ export const ME_QUERY = gql`
       id
       name
       email
+      addedServers {
+        id
+        name
+        createdAt
+      }
     }
   }
 `

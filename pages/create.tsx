@@ -20,6 +20,7 @@ import {
 } from "@blueprintjs/core"
 import { Col, Row } from "react-grid-system"
 import { DateInput } from "@blueprintjs/datetime"
+import Router from "next/router"
 
 gql`
   query Chronicles {
@@ -100,6 +101,8 @@ function CreateServer() {
       })
 
       resetForm()
+
+      Router.push("/my-servers")
     },
   })
 

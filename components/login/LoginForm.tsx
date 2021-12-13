@@ -17,6 +17,11 @@ gql`
         id
         name
         email
+        addedServers {
+          id
+          name
+          createdAt
+        }
       }
       token
     }
