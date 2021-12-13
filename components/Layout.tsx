@@ -1,8 +1,7 @@
-import { Classes, Icon, Menu, MenuDivider, MenuItem } from "@blueprintjs/core"
-import Link from "next/link"
-import { Container, Hidden, Row } from "react-grid-system"
+import { Hidden } from "react-grid-system"
 import styled from "styled-components"
 import Header from "./Header"
+import { Menu } from "./Menu"
 
 const Wrapper = styled.div`
   padding: 0 12px;
@@ -43,14 +42,6 @@ const BodyWrapper = styled(WidthWrapper)`
   box-shadow: 0 5px 10px #dbdbdb;
 `
 
-const StyledMenu = styled(Menu)`
-  background: transparent;
-  border-right: solid 1px #dedede;
-  box-shadow: inset -5px 0 7px #dcdcdc80;
-  padding: 8px 12px;
-  margin-right: 4px;
-`
-
 export const ContentWrapper = styled.main<Props>`
   padding: 0 12px 24px 12px;
 
@@ -83,25 +74,7 @@ const Layout: React.FC<Props> = props => {
         </WidthWrapper>
         <BodyWrapper>
           <Hidden sm xs>
-            <StyledMenu>
-              <MenuDivider title="Servers" />
-              <Link href="/" passHref>
-                <MenuItem icon="chart" text="Top Rated" />
-              </Link>
-              <MenuDivider />
-              <MenuItem icon="calendar" text="Upcoming Servers" />
-              <MenuItem icon="filter" text="Find Server" />
-              <Link href="/create" passHref>
-                <MenuItem icon="new-link" text="Add Server" />
-              </Link>
-              <MenuDivider title="Users" />
-              <Link href="/register" passHref>
-                <MenuItem icon="new-person" text="Register" />
-              </Link>
-              <Link href="/login" passHref>
-                <MenuItem icon="log-in" text="Log In" />
-              </Link>
-            </StyledMenu>
+            <Menu />
           </Hidden>
           {props.children}
         </BodyWrapper>
