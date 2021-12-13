@@ -1,20 +1,17 @@
-import { Button } from "@blueprintjs/core"
+import { Button, Tag } from "@blueprintjs/core"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import Image from "next/image"
 import { Col, Row } from "react-grid-system"
 import { useAppState } from "./context"
-import Logout from "./Logout"
 import styled from "styled-components"
 
-const AuthButtonsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  height: 100%;
-  > button {
-    margin-left: 8px;
-  }
+const StyledNav = styled.nav`
+  margin: 32px 0;
+`
+
+const VotedWrapper = styled.div`
+  text-align: right;
 `
 
 const Header = () => {
@@ -26,9 +23,9 @@ const Header = () => {
   }
 
   return (
-    <nav style={{ marginTop: 16 }}>
-      <Row>
-        <Col>
+    <StyledNav>
+      <Row align="center">
+        <Col xs={12} sm={6}>
           <Link href="/" passHref>
             <a>
               <Image
@@ -41,43 +38,15 @@ const Header = () => {
             </a>
           </Link>
         </Col>
-        <Col>
-          <AuthButtonsWrapper>
-            {currentUser?.name ? (
-              <>
-                <h4>
-                  Welcome {currentUser.name} <Logout />
-                </h4>
-                <Link href="/create" passHref>
-                  <Button intent="primary">Add new server</Button>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link href="/register" passHref>
-                  <Button outlined={isActive("/register")}>Register</Button>
-                </Link>
-                <Link href="/login" passHref>
-                  <Button outlined={isActive("/login")} icon="log-in">
-                    Log In
-                  </Button>
-                </Link>
-              </>
-            )}
-          </AuthButtonsWrapper>
+        <Col xs={12} sm={6}>
+          <VotedWrapper>
+            Hello <b>Anonymous</b> from <Tag minimal>256.12.18.45</Tag>.
+            <br />
+            You have <Tag intent="warning">not</Tag> voted today yet.
+          </VotedWrapper>
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <Link href="/" passHref>
-            <Button outlined>Home</Button>
-          </Link>{" "}
-          <Link href="/drafts" passHref>
-            <Button outlined>Drafts</Button>
-          </Link>
-        </Col>
-      </Row>
-    </nav>
+    </StyledNav>
   )
 }
 

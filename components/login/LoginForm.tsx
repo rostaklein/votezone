@@ -81,7 +81,7 @@ export const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Log In</h1>
+      <h1 style={{ marginTop: 0 }}>Log In</h1>
       <StyledFormInput
         autoFocus
         name="username"

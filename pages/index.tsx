@@ -2,7 +2,7 @@ import Layout from "../components/Layout"
 import Link from "next/link"
 import gql from "graphql-tag"
 import { useApprovedServersQuery } from "../generated/gql-client"
-import { Button, HTMLTable, Tag, Tooltip } from "@blueprintjs/core"
+import { Button, HTMLTable, Icon, Tag, Tooltip } from "@blueprintjs/core"
 import { Col, Container, Row } from "react-grid-system"
 import { DateTime } from "luxon"
 import styled from "styled-components"
@@ -67,7 +67,14 @@ const Homepage = () => {
   return (
     <Layout>
       <Container>
-        <h2>Newest servers</h2>
+        <h2>
+          <Icon
+            icon="calendar"
+            style={{ verticalAlign: "baseline", marginRight: 8 }}
+            color="gray"
+          />
+          Newest servers
+        </h2>
         <main>
           <StyledTable bordered condensed>
             <thead>

@@ -25,60 +25,58 @@ function Register(props) {
   const [signup] = useSignUpMutation()
 
   return (
-    <Layout>
-      <Row>
-        <Col sm={6} md={4} offset={{ sm: 3, md: 4 }}>
-          <form
-            onSubmit={async e => {
-              e.preventDefault()
+    <Layout centerContent>
+      <Col sm={12} md={6}>
+        <form
+          onSubmit={async e => {
+            e.preventDefault()
 
-              await signup({
-                variables: {
-                  name: name,
-                  email: email,
-                  password: pwd,
-                },
-              })
-              Router.push("/")
-            }}
-          >
-            <h1>Register</h1>
-            <StyledFormInput
-              autoFocus
-              onChange={e => setName(e.target.value)}
-              placeholder="Name"
-              type="text"
-              className="mb-1"
-              leftIcon="user"
-              value={name}
-            />
-            <StyledFormInput
-              onChange={e => setEmail(e.target.value)}
-              placeholder="Email address"
-              type="text"
-              leftIcon="envelope"
-              value={email}
-            />
-            <StyledFormInput
-              onChange={e => setPwd(e.target.value)}
-              placeholder="Password"
-              type="password"
-              leftIcon="lock"
-              value={pwd}
-            />
-            <Row>
-              <Col sm={6}>
-                <Button intent="primary" text="Register" type="submit" fill />
-              </Col>
-              <Col sm={6}>
-                <Button onClick={() => Router.push("/")} minimal fill>
-                  or Cancel
-                </Button>
-              </Col>
-            </Row>
-          </form>
-        </Col>
-      </Row>
+            await signup({
+              variables: {
+                name: name,
+                email: email,
+                password: pwd,
+              },
+            })
+            Router.push("/")
+          }}
+        >
+          <h1>Register</h1>
+          <StyledFormInput
+            autoFocus
+            onChange={e => setName(e.target.value)}
+            placeholder="Name"
+            type="text"
+            className="mb-1"
+            leftIcon="user"
+            value={name}
+          />
+          <StyledFormInput
+            onChange={e => setEmail(e.target.value)}
+            placeholder="Email address"
+            type="text"
+            leftIcon="envelope"
+            value={email}
+          />
+          <StyledFormInput
+            onChange={e => setPwd(e.target.value)}
+            placeholder="Password"
+            type="password"
+            leftIcon="lock"
+            value={pwd}
+          />
+          <Row>
+            <Col sm={6}>
+              <Button intent="primary" text="Register" type="submit" fill />
+            </Col>
+            <Col sm={6}>
+              <Button onClick={() => Router.push("/")} minimal fill>
+                or Cancel
+              </Button>
+            </Col>
+          </Row>
+        </form>
+      </Col>
     </Layout>
   )
 }

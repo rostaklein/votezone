@@ -5,12 +5,10 @@ import { LoginForm } from "../components/login/LoginForm"
 
 function LoginPage() {
   return (
-    <Layout>
-      <Row>
-        <Col sm={6} md={4} offset={{ sm: 3, md: 4 }}>
-          <LoginForm />
-        </Col>
-      </Row>
+    <Layout centerContent>
+      <Col sm={8} md={6}>
+        <LoginForm />
+      </Col>
     </Layout>
   )
 }
