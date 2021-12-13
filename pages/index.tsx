@@ -2,8 +2,10 @@ import Layout from "../components/Layout"
 import Link from "next/link"
 import gql from "graphql-tag"
 import { useApprovedServersQuery } from "../generated/gql-client"
-import { Button, HTMLTable } from "@blueprintjs/core"
-import { Col, Row } from "react-grid-system"
+import { Button, HTMLTable, Tag, Tooltip } from "@blueprintjs/core"
+import { Col, Container, Row } from "react-grid-system"
+import { DateTime } from "luxon"
+import styled from "styled-components"
 
 gql`
   query ApprovedServers {
@@ -16,6 +18,7 @@ gql`
       }
       chronicle {
         shortcut
+        name
       }
       rates {
         xp
@@ -29,6 +32,26 @@ gql`
     }
   }
 `
+const StyledServerNameTd = styled.td``
+
+const StyledTr = styled.tr``
+
+const StyledTable = styled(HTMLTable)`
+  ${StyledTr} {
+    td {
+      vertical-align: middle;
+    }
+    > ${StyledServerNameTd} {
+      max-width: 180px;
+      vertical-align: middle;
+      button {
+        padding-top: 6px;
+        padding-bottom: 6px;
+      }
+    }
+  }
+`
+
 const Homepage = () => {
   const { loading, error, data } = useApprovedServersQuery({
     fetchPolicy: "cache-and-network",
@@ -43,36 +66,55 @@ const Homepage = () => {
 
   return (
     <Layout>
-      <div className="page">
-        <h1>Server list</h1>
+      <Container>
+        <h2>Newest servers</h2>
         <main>
-          <HTMLTable bordered condensed>
+          <StyledTable bordered condensed>
             <thead>
-              <tr>
-                <th>Server</th>
-                <th>Chronicle</th>
+              <StyledTr>
+                <th></th>
+                <StyledServerNameTd as="th">Server</StyledServerNameTd>
                 <th>Rates</th>
                 <th>Grand Opening</th>
-                <th></th>
-              </tr>
+              </StyledTr>
             </thead>
             <tbody>
               {data?.approvedServers?.map(
-                server =>
+                (server, i) =>
                   server && (
-                    <tr key={server?.id}>
-                      <td>
-                        <b>{server.name}</b>
-                      </td>
-                      <td>{server.chronicle?.shortcut}</td>
+                    <StyledTr key={server?.id}>
+                      <td>{i + 1}.</td>
+                      <StyledServerNameTd>
+                        <Link
+                          href="/detail/[id]"
+                          as={`/detail/${server.id}`}
+                          passHref
+                        >
+                          <Button minimal small>
+                            <b>{server.name}</b>{" "}
+                            <Tag
+                              minimal
+                              title={server.chronicle?.name ?? undefined}
+                            >
+                              {server.chronicle?.shortcut}
+                            </Tag>
+                          </Button>
+                        </Link>
+                      </StyledServerNameTd>
                       <td>
                         {server.rates && (
                           <Row gutterWidth={6}>
                             {["XP", "SP", "Adena", "Drop", "Spoil"].map(
                               rate => (
                                 <Col key={rate}>
-                                  <div style={{ fontSize: 12 }}>{rate}</div>
-                                  {server.rates![rate.toLowerCase()]}x
+                                  <div
+                                    style={{ fontSize: 11, fontWeight: "bold" }}
+                                  >
+                                    {rate}
+                                  </div>
+                                  <Tag minimal>
+                                    {server.rates![rate.toLowerCase()]}x
+                                  </Tag>
                                 </Col>
                               )
                             )}
@@ -80,27 +122,27 @@ const Homepage = () => {
                         )}
                       </td>
                       <td>
-                        {server.openingAt &&
-                          new Date(server.openingAt).toLocaleString()}
-                      </td>
-                      <td>
-                        <Link
-                          href="/detail/[id]"
-                          as={`/detail/${server.id}`}
-                          passHref
+                        <Tooltip
+                          content={DateTime.fromISO(server.openingAt).toFormat(
+                            "DDD TTT"
+                          )}
+                          placement="right"
                         >
-                          <Button minimal small>
-                            Details
-                          </Button>
-                        </Link>
+                          <span style={{ fontSize: 12 }}>
+                            {server.openingAt &&
+                              DateTime.fromISO(
+                                server.openingAt
+                              ).toRelativeCalendar()}
+                          </span>
+                        </Tooltip>
                       </td>
-                    </tr>
+                    </StyledTr>
                   )
               )}
             </tbody>
-          </HTMLTable>
+          </StyledTable>
         </main>
-      </div>
+      </Container>
     </Layout>
   )
 }

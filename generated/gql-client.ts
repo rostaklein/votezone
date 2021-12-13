@@ -158,7 +158,7 @@ export type DeleteServerMutation = { __typename?: 'Mutation', deleteServer?: { _
 export type ApprovedServersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ApprovedServersQuery = { __typename?: 'Query', approvedServers?: Array<{ __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, description?: string | null | undefined, openingAt?: any | null | undefined, createdAt?: any | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined, chronicle?: { __typename?: 'Chronicle', shortcut?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined };
+export type ApprovedServersQuery = { __typename?: 'Query', approvedServers?: Array<{ __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, description?: string | null | undefined, openingAt?: any | null | undefined, createdAt?: any | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined, chronicle?: { __typename?: 'Chronicle', shortcut?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined };
 
 export type SignUpMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']>;
@@ -407,6 +407,7 @@ export const ApprovedServersDocument = gql`
     }
     chronicle {
       shortcut
+      name
     }
     rates {
       xp

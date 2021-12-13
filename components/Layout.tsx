@@ -13,7 +13,7 @@ const TopHeaderWrapper = styled.div`
 `
 
 const ContentWrapper = styled.div`
-  max-width: 960px;
+  max-width: 1140px;
   margin: 0 auto;
 `
 
@@ -29,6 +29,13 @@ const Footer = styled.footer`
   }
 `
 
+const BodyWrapper = styled(ContentWrapper)`
+  background: #ededed94;
+  border-radius: 6px;
+  border: solid 1px #dedede;
+  padding: 0 24px 24px 24px;
+`
+
 const Layout: React.FC = props => {
   return (
     <>
@@ -41,7 +48,7 @@ const Layout: React.FC = props => {
         <ContentWrapper>
           <Header />
         </ContentWrapper>
-        <ContentWrapper>{props.children}</ContentWrapper>
+        <BodyWrapper>{props.children}</BodyWrapper>
       </Wrapper>
       <Footer>
         Made with love in 🇨🇿 <span>|</span> © VOTEZONE{" "}
