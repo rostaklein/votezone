@@ -5,12 +5,15 @@ import styled from "styled-components"
 import Header from "./Header"
 
 const Wrapper = styled.div`
-  padding: 0 24px;
+  padding: 0 12px;
+  @media only screen and (min-width: 768px) {
+    padding: 0 24px;
+  }
 `
 
 const TopHeaderWrapper = styled.div`
   background-color: #1e1e1e;
-  padding: 4px 0;
+  padding: 4px 12px;
   color: #787878;
   font-size: 13px;
 `
@@ -49,10 +52,12 @@ const StyledMenu = styled(Menu)`
 `
 
 export const ContentWrapper = styled.main<Props>`
-  padding: 0 24px 32px 24px;
+  padding: 0 12px 24px 12px;
+
   flex: 1;
   @media only screen and (min-width: 768px) {
     min-height: 400px;
+    padding: 0 24px 32px 24px;
   }
 
   display: flex;

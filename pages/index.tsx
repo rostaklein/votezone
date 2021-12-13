@@ -32,11 +32,17 @@ gql`
     }
   }
 `
+const StyledMain = styled.main`
+  flex: 1;
+  overflow: auto;
+`
 const StyledServerNameTd = styled.td``
 
 const StyledTr = styled.tr``
 
 const StyledTable = styled(HTMLTable)`
+  width: 100%;
+  min-width: 600px;
   ${StyledTr} {
     td {
       vertical-align: middle;
@@ -66,16 +72,16 @@ const Homepage = () => {
 
   return (
     <ContentWrapper>
-      <Container>
-        <h2>
-          <Icon
-            icon="calendar"
-            style={{ verticalAlign: "baseline", marginRight: 8 }}
-            color="gray"
-          />
-          Newest servers
-        </h2>
-        <main>
+      <>
+        <StyledMain>
+          <h2>
+            <Icon
+              icon="calendar"
+              style={{ verticalAlign: "baseline", marginRight: 8 }}
+              color="gray"
+            />
+            Newest servers
+          </h2>
           <StyledTable bordered condensed>
             <thead>
               <StyledTr>
@@ -148,8 +154,8 @@ const Homepage = () => {
               )}
             </tbody>
           </StyledTable>
-        </main>
-      </Container>
+        </StyledMain>
+      </>
     </ContentWrapper>
   )
 }
