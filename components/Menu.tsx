@@ -10,7 +10,6 @@ const StyledMenu = styled(BlueprintMenu)`
   border-right: solid 1px #dedede;
   box-shadow: inset -5px 0 7px #dcdcdc80;
   padding: 8px 12px;
-  margin-right: 4px;
 `
 
 export const Menu: React.FC = () => {

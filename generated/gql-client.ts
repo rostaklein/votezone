@@ -146,7 +146,7 @@ export type ServerQueryVariables = Exact<{
 }>;
 
 
-export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id?: string | null | undefined, description?: string | null | undefined, createdAt?: any | null | undefined, name?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined } | null | undefined };
+export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id?: string | null | undefined, description?: string | null | undefined, createdAt?: any | null | undefined, name?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined, addedBy?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined };
 
 export type DeleteServerMutationVariables = Exact<{
   serverId: Scalars['ID'];
@@ -337,6 +337,7 @@ export const ServerDocument = gql`
       name
     }
     addedBy {
+      id
       name
     }
     description
