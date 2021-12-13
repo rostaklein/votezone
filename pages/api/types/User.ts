@@ -12,7 +12,11 @@ export const User = objectType({
       resolve: parent =>
         prisma.user
           .findFirst({ where: { id: parent.id ?? undefined } })
-          .servers(),
+          .servers({
+            orderBy: {
+              createdAt: "desc",
+            },
+          }),
     })
   },
 })

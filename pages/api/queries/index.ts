@@ -12,6 +12,9 @@ export const Query = objectType({
       resolve: (_parent, _args) => {
         return prisma.server.findMany({
           where: { approved: true },
+          orderBy: {
+            createdAt: "desc",
+          },
         })
       },
     })
