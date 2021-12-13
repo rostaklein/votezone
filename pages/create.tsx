@@ -1,4 +1,5 @@
 import React, { useMemo } from "react"
+import { DateTime } from "luxon"
 import Layout from "../components/Layout"
 import gql from "graphql-tag"
 import {
@@ -141,11 +142,14 @@ function CreateServer() {
                   setFieldValue("openingAt", selectedDate)
                 }
                 fill
-                parseDate={date => (console.log(date), new Date(date))}
-                formatDate={date => `${date.toUTCString()}`}
+                parseDate={date => DateTime.fromISO(date).toUTC().toJSDate()}
+                formatDate={date =>
+                  DateTime.fromJSDate(date).toUTC().toFormat("DD TTT")
+                }
                 timePrecision="minute"
                 timePickerProps={{ showArrowButtons: true }}
                 maxDate={maxDate}
+                canClearSelection
               />
             </FormGroup>
           </Col>
@@ -198,6 +202,7 @@ function CreateServer() {
             onChange={handleChange}
             value={values.description}
             minLength={100}
+            style={{ minHeight: 80, minWidth: "100%" }}
           />
         </FormGroup>
         {!isValid && (
