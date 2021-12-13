@@ -48,7 +48,7 @@ const StyledMenu = styled(Menu)`
   margin-right: 4px;
 `
 
-const ContentWrapper = styled.main<Props>`
+export const ContentWrapper = styled.main<Props>`
   padding: 0 24px 32px 24px;
   flex: 1;
   @media only screen and (min-width: 768px) {
@@ -98,7 +98,7 @@ const Layout: React.FC<Props> = props => {
               </Link>
             </StyledMenu>
           </Hidden>
-          <ContentWrapper {...props}>{props.children}</ContentWrapper>
+          {props.children}
         </BodyWrapper>
       </Wrapper>
       <Footer>

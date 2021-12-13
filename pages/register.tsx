@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import Layout from "../components/Layout"
+import { ContentWrapper } from "../components/Layout"
 import Router from "next/router"
 import gql from "graphql-tag"
 import { Button } from "@blueprintjs/core"
@@ -25,7 +25,7 @@ function Register(props) {
   const [signup] = useSignUpMutation()
 
   return (
-    <Layout centerContent>
+    <ContentWrapper centerContent>
       <Col sm={12} md={6}>
         <form
           onSubmit={async e => {
@@ -77,7 +77,7 @@ function Register(props) {
           </Row>
         </form>
       </Col>
-    </Layout>
+    </ContentWrapper>
   )
 }
 

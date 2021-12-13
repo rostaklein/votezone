@@ -1,4 +1,4 @@
-import Layout from "../components/Layout"
+import Layout, { ContentWrapper } from "../components/Layout"
 import Link from "next/link"
 import gql from "graphql-tag"
 import { useApprovedServersQuery } from "../generated/gql-client"
@@ -65,7 +65,7 @@ const Homepage = () => {
   }
 
   return (
-    <Layout>
+    <ContentWrapper>
       <Container>
         <h2>
           <Icon
@@ -150,7 +150,7 @@ const Homepage = () => {
           </StyledTable>
         </main>
       </Container>
-    </Layout>
+    </ContentWrapper>
   )
 }
 

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react"
 import { DateTime } from "luxon"
-import Layout from "../components/Layout"
+import { ContentWrapper } from "../components/Layout"
 import gql from "graphql-tag"
 import {
   useChroniclesQuery,
@@ -19,7 +19,7 @@ import {
   Toaster,
 } from "@blueprintjs/core"
 import { Col, Row } from "react-grid-system"
-import { DateInput, DatePicker } from "@blueprintjs/datetime"
+import { DateInput } from "@blueprintjs/datetime"
 
 gql`
   query Chronicles {
@@ -111,7 +111,7 @@ function CreateServer() {
   }, [])
 
   return (
-    <Layout>
+    <ContentWrapper>
       <form onSubmit={handleSubmit}>
         <h1>Add Server</h1>
         <Row gutterWidth={8}>
@@ -222,7 +222,7 @@ function CreateServer() {
           Submit
         </Button>
       </form>
-    </Layout>
+    </ContentWrapper>
   )
 }
 

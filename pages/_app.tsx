@@ -11,6 +11,7 @@ import { MeQuery } from "../generated/gql-client"
 import { AppContextProvider } from "../components/context"
 import { GlobalStyle } from "../components/globalStyles"
 import Head from "next/head"
+import Layout from "../components/Layout"
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -46,7 +47,9 @@ const MyApp = ({ Component, pageProps, me }: AppProps & Props) => {
       </Head>
       <GlobalStyle />
       <AppContextProvider me={me?.data.me ?? null}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </AppContextProvider>
     </ApolloProvider>
   )

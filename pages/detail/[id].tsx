@@ -1,4 +1,4 @@
-import Layout from "../../components/Layout"
+import Layout, { ContentWrapper } from "../../components/Layout"
 import Router, { useRouter } from "next/router"
 import gql from "graphql-tag"
 import {
@@ -48,7 +48,7 @@ function ServerDetail() {
 
   const authorName = data?.server?.addedBy?.name ?? "Unknown author"
   return (
-    <Layout>
+    <ContentWrapper>
       <h2>{data?.server?.name}</h2>
       <p>By {authorName}</p>
       <p>Chronicle: {data?.server?.chronicle?.name}</p>
@@ -65,7 +65,7 @@ function ServerDetail() {
       >
         Delete
       </button>
-    </Layout>
+    </ContentWrapper>
   )
 }
 
