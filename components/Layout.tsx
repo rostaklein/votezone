@@ -52,6 +52,7 @@ export const ContentWrapper = styled.main<Props>`
   }
 
   display: flex;
+  flex-direction: column;
   align-items: ${({ centerContent }) => centerContent && "center"};
   justify-content: ${({ centerContent }) => centerContent && "center"};
 `

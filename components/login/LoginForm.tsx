@@ -61,6 +61,7 @@ export const LoginForm: React.FC = () => {
             if (result.data.login.token) {
               Cookies.set("auth-token", result.data.login.token)
             }
+            Router.push("/profile")
           }
         } catch (err) {
           if (err instanceof ApolloError) {
