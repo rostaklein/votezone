@@ -31,9 +31,10 @@ export const ME_QUERY = gql`
 
 type Props = {
   me: ApolloQueryResult<MeQuery> | null
+  ip?: string
 }
 
-const MyApp = ({ Component, pageProps, me }: AppProps & Props) => {
+const MyApp = ({ Component, pageProps, me, ip }: AppProps & Props) => {
   return (
     <ApolloProvider client={client}>
       <Head>
@@ -46,7 +47,7 @@ const MyApp = ({ Component, pageProps, me }: AppProps & Props) => {
         <link rel="icon" type="image/png" href="favicon.png" />
       </Head>
       <GlobalStyle />
-      <AppContextProvider me={me?.data.me ?? null}>
+      <AppContextProvider me={me?.data.me ?? null} ip={ip}>
         <Layout>
           <Component {...pageProps} />
         </Layout>
@@ -60,6 +61,10 @@ MyApp.getInitialProps = async (appContext: AppContext): Promise<Props> => {
 
   const cookies = cookie.parse(req?.headers["cookie"] ?? "")
 
+  const ip = (req?.headers["x-real-ip"] ?? req?.socket.remoteAddress) as
+    | string
+    | undefined
+
   const authHeader = cookies["auth-token"]
 
   const me = await client
@@ -72,7 +77,7 @@ MyApp.getInitialProps = async (appContext: AppContext): Promise<Props> => {
       return null
     })
 
-  return { me: me }
+  return { me: me, ip }
 }
 
 export default MyApp

@@ -29,6 +29,7 @@ export const reducer = (state: AppState, action: Action): AppState => {
 
 export type AppState = {
   currentUser: MeQuery["me"] | null
+  ip?: string
 }
 
 type Context = {
@@ -40,14 +41,16 @@ const AppContext = React.createContext<Context | undefined>(undefined)
 
 export const defaultState: AppState = {
   currentUser: null,
+  ip: undefined,
 }
 
 type Props = {
   me: MeQuery["me"] | null
+  ip?: string
 }
 
-export const AppContextProvider: React.FC<Props> = ({ children, me }) => {
-  const [state, dispatch] = useReducer(reducer, { currentUser: me })
+export const AppContextProvider: React.FC<Props> = ({ children, me, ip }) => {
+  const [state, dispatch] = useReducer(reducer, { currentUser: me, ip })
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

@@ -16,7 +16,7 @@ const VotedWrapper = styled.div`
 
 const Header = () => {
   const router = useRouter()
-  const { currentUser } = useAppState()
+  const { currentUser, ip } = useAppState()
 
   function isActive(pathname) {
     return router.pathname === pathname
@@ -40,7 +40,8 @@ const Header = () => {
         </Col>
         <Col xs={12} sm={6}>
           <VotedWrapper>
-            Hello <b>Anonymous</b> from <Tag minimal>256.12.18.45</Tag>.
+            Hello <b>{currentUser?.name ? currentUser?.name : "Anonymous"}</b>{" "}
+            from <Tag minimal>{ip}</Tag>.
             <br />
             You have <Tag intent="warning">not</Tag> voted today yet.
           </VotedWrapper>
