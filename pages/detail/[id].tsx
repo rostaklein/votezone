@@ -130,12 +130,12 @@ function ServerDetail() {
       </ImageWrapper>
       <ContentWrapper style={{ paddingTop: 16 }}>
         <Row>
-          <Col sm={6}>
+          <Col sm={4}>
             <p {...loadingComponent}>
               Chronicle: <Tag>{data?.server?.chronicle?.name}</Tag>
             </p>
           </Col>
-          <Col sm={6}>
+          <Col sm={8}>
             <Rates rates={data?.server?.rates} displayIcons />
           </Col>
         </Row>

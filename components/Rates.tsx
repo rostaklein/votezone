@@ -3,6 +3,7 @@ import { Button, Tag } from "@blueprintjs/core"
 import { Col, Row } from "react-grid-system"
 import { RatesFragment } from "../generated/gql-client"
 import styled from "styled-components"
+import Image from "next/image"
 
 const RateName = styled.label`
   font-size: 11px;
@@ -14,14 +15,17 @@ const RateName = styled.label`
 const StyledCol = styled(Col)`
   display: flex;
   align-items: center;
-  > img {
-    width: 32px;
-    height: 32px;
-    margin-top: 4px;
-    margin-right: 6px;
-    border: solid 2px #d79d4761;
-    border-radius: 4px;
-  }
+`
+
+const StyledImageWrapper = styled.div`
+  width: 32px;
+  height: 32px;
+  margin-top: 4px;
+  margin-right: 4px;
+  border: solid 2px #d79d4761;
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: content-box;
 `
 
 gql`
@@ -51,7 +55,17 @@ type RateProps = {
 const Rate: React.FC<RateProps> = ({ rate, value, hasIcon }) => {
   return (
     <StyledCol>
-      {hasIcon && <img src={IconImageUrl[rate]} alt={rate} />}
+      {hasIcon && (
+        <StyledImageWrapper>
+          <Image
+            src={IconImageUrl[rate]}
+            alt={rate}
+            layout="fixed"
+            height="32"
+            width="32"
+          />
+        </StyledImageWrapper>
+      )}
       <div>
         <RateName>{rate}</RateName>
         <Tag minimal>{value}x</Tag>
