@@ -116,6 +116,8 @@ export type User = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type RatesFragment = { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined };
+
 export type LoginMutationVariables = Exact<{
   loginEmail: Scalars['String'];
   loginPassword: Scalars['String'];
@@ -146,7 +148,7 @@ export type ServerQueryVariables = Exact<{
 }>;
 
 
-export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id?: string | null | undefined, description?: string | null | undefined, createdAt?: any | null | undefined, name?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined, addedBy?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined };
+export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id?: string | null | undefined, description?: string | null | undefined, createdAt?: any | null | undefined, name?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined, addedBy?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined } | null | undefined };
 
 export type DeleteServerMutationVariables = Exact<{
   serverId: Scalars['ID'];
@@ -169,7 +171,15 @@ export type SignUpMutationVariables = Exact<{
 
 export type SignUpMutation = { __typename?: 'Mutation', register?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined } | null | undefined };
 
-
+export const RatesFragmentDoc = gql`
+    fragment Rates on ServerRates {
+  xp
+  sp
+  adena
+  drop
+  spoil
+}
+    `;
 export const LoginDocument = gql`
     mutation Login($loginEmail: String!, $loginPassword: String!) {
   login(email: $loginEmail, password: $loginPassword) {
@@ -340,12 +350,15 @@ export const ServerDocument = gql`
       id
       name
     }
+    rates {
+      ...Rates
+    }
     description
     createdAt
     name
   }
 }
-    `;
+    ${RatesFragmentDoc}`;
 
 /**
  * __useServerQuery__
@@ -421,17 +434,13 @@ export const ApprovedServersDocument = gql`
       name
     }
     rates {
-      xp
-      sp
-      adena
-      drop
-      spoil
+      ...Rates
     }
     openingAt
     createdAt
   }
 }
-    `;
+    ${RatesFragmentDoc}`;
 
 /**
  * __useApprovedServersQuery__

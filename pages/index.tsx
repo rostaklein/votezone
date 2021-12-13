@@ -1,4 +1,4 @@
-import Layout, { ContentWrapper } from "../components/Layout"
+import { ContentWrapper } from "../components/Layout"
 import Link from "next/link"
 import gql from "graphql-tag"
 import { useApprovedServersQuery } from "../generated/gql-client"
@@ -10,9 +10,9 @@ import {
   Tag,
   Tooltip,
 } from "@blueprintjs/core"
-import { Col, Container, Row } from "react-grid-system"
 import { DateTime } from "luxon"
 import styled from "styled-components"
+import { Rates } from "../components/Rates"
 
 gql`
   query ApprovedServers {
@@ -28,11 +28,7 @@ gql`
         name
       }
       rates {
-        xp
-        sp
-        adena
-        drop
-        spoil
+        ...Rates
       }
       openingAt
       createdAt
@@ -118,27 +114,7 @@ const Homepage = () => {
                           </Link>
                         </StyledServerNameTd>
                         <td>
-                          {server.rates && (
-                            <Row gutterWidth={6}>
-                              {["XP", "SP", "Adena", "Drop", "Spoil"].map(
-                                rate => (
-                                  <Col key={rate}>
-                                    <div
-                                      style={{
-                                        fontSize: 11,
-                                        fontWeight: "bold",
-                                      }}
-                                    >
-                                      {rate}
-                                    </div>
-                                    <Tag minimal>
-                                      {server.rates![rate.toLowerCase()]}x
-                                    </Tag>
-                                  </Col>
-                                )
-                              )}
-                            </Row>
-                          )}
+                          {server.rates && <Rates rates={server.rates} />}
                         </td>
                         <td>
                           <Tooltip

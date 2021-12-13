@@ -11,6 +11,7 @@ import Link from "next/link"
 import { Row, Col } from "react-grid-system"
 import Image from "next/image"
 import styled from "styled-components"
+import { Rates } from "../../components/Rates"
 
 gql`
   query Server($serverId: ID!) {
@@ -22,6 +23,9 @@ gql`
       addedBy {
         id
         name
+      }
+      rates {
+        ...Rates
       }
       description
       createdAt
@@ -108,8 +112,6 @@ function ServerDetail() {
       <ImageWrapper>
         <Image
           src="https://i.imgur.com/l7a7Nh2.jpg"
-          height="300"
-          width="1000"
           layout="fill"
           alt="Server Cover Image"
           quality="100"
@@ -133,7 +135,9 @@ function ServerDetail() {
               Chronicle: <Tag>{data?.server?.chronicle?.name}</Tag>
             </p>
           </Col>
-          <Col sm={6}>Rates</Col>
+          <Col sm={6}>
+            <Rates rates={data?.server?.rates} displayIcons />
+          </Col>
         </Row>
 
         <p {...loadingComponent}>Added by: {authorName}</p>
