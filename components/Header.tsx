@@ -1,10 +1,12 @@
-import { Button, Tag } from "@blueprintjs/core"
+import { Button, Classes, Spinner, Tag } from "@blueprintjs/core"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import Image from "next/image"
 import { Col, Row } from "react-grid-system"
 import { useAppState } from "./context"
 import styled from "styled-components"
+import { useVoteStatusQuery } from "../generated/gql-client"
+import { useMemo } from "react"
 
 const StyledNav = styled.nav`
   margin: 32px 0;
@@ -15,12 +17,29 @@ const VotedWrapper = styled.div`
 `
 
 const Header = () => {
+  const { data, loading } = useVoteStatusQuery({ fetchPolicy: "cache-first" })
   const router = useRouter()
   const { currentUser, ip } = useAppState()
 
-  function isActive(pathname) {
-    return router.pathname === pathname
-  }
+  const status = useMemo(() => {
+    if (loading) {
+      return (
+        <Tag intent="success" icon="tick" className={Classes.SKELETON}>
+          not
+        </Tag>
+      )
+    }
+
+    if (data?.voteStatus?.votedAlready) {
+      return (
+        <Tag intent="success" icon="tick">
+          already
+        </Tag>
+      )
+    }
+
+    return <Tag intent="warning">not</Tag>
+  }, [data?.voteStatus?.votedAlready, loading])
 
   return (
     <StyledNav>
@@ -43,7 +62,7 @@ const Header = () => {
             Hello <b>{currentUser?.name ? currentUser?.name : "Anonymous"}</b>{" "}
             from <Tag minimal>{ip}</Tag>.
             <br />
-            You have <Tag intent="warning">not</Tag> voted today yet.
+            You have {status} voted today yet.
           </VotedWrapper>
         </Col>
       </Row>
