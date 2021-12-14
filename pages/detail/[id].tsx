@@ -12,6 +12,7 @@ import { Row, Col } from "react-grid-system"
 import Image from "next/image"
 import styled from "styled-components"
 import { Rates } from "../../components/Rates"
+import { VoteForServer } from "../../components/VoteForServer"
 
 gql`
   query Server($serverId: ID!) {
@@ -92,7 +93,7 @@ const ServerNameWrapper = styled.div`
 function ServerDetail() {
   const serverId = useRouter().query.id as string
   const { currentUser } = useAppState()
-  const { loading, error, data } = useServerQuery({
+  const { loading, data } = useServerQuery({
     variables: { serverId },
   })
 
@@ -122,6 +123,9 @@ function ServerDetail() {
             <Button minimal onClick={() => Router.back()} icon="arrow-left">
               Back
             </Button>
+            <div style={{ alignSelf: "center" }}>
+              <VoteForServer serverId={data?.server?.id} />
+            </div>
             <ServerNameWrapper>
               <h1 {...loadingComponent}>{data?.server?.name}</h1>
             </ServerNameWrapper>
