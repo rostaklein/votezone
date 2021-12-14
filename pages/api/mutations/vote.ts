@@ -6,7 +6,6 @@ import prisma from "../../../lib/prisma"
 export const getLastVote = async (ip: string) => {
   const twelveHoursAgo = DateTime.now().minus({ hours: 12 }).toJSDate()
 
-  console.log({ twelveHoursAgo })
   const vote = await prisma.vote.findFirst({
     where: { ip, createdAt: { gte: twelveHoursAgo } },
   })
@@ -20,7 +19,17 @@ export const voteMutation = mutationField("vote", {
     server: nonNull(idArg()),
   },
   resolve: async (_, args, ctx) => {
-    const user = await ctx.getCurrentUser()
+    const user = await ctx.getCurrentUser().catch(() => {})
+
+    let votedBy
+
+    if (user) {
+      votedBy = {
+        connect: {
+          id: user.id,
+        },
+      }
+    }
 
     if (typeof ctx.ip !== "string") {
       throw new ApolloError("Could not detect clients IP.", "INVALID_VOTE")
@@ -37,11 +46,7 @@ export const voteMutation = mutationField("vote", {
             id: args.server,
           },
         },
-        votedBy: {
-          connect: {
-            id: user.id,
-          },
-        },
+        votedBy,
         ip: ctx.ip,
       },
     })

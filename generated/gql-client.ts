@@ -147,6 +147,13 @@ export type VoteStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type VoteStatusQuery = { __typename?: 'Query', voteStatus?: { __typename?: 'VoteStatus', votedAlready?: boolean | null | undefined, lastVotedAt?: any | null | undefined, ip?: string | null | undefined, server?: { __typename?: 'Server', id?: string | null | undefined } | null | undefined } | null | undefined };
 
+export type VoteForServerMutationVariables = Exact<{
+  server: Scalars['ID'];
+}>;
+
+
+export type VoteForServerMutation = { __typename?: 'Mutation', vote?: { __typename?: 'Vote', id?: string | null | undefined, ip?: string | null | undefined, server?: { __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined };
+
 export type LoginMutationVariables = Exact<{
   loginEmail: Scalars['String'];
   loginPassword: Scalars['String'];
@@ -248,6 +255,44 @@ export function useVoteStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type VoteStatusQueryHookResult = ReturnType<typeof useVoteStatusQuery>;
 export type VoteStatusLazyQueryHookResult = ReturnType<typeof useVoteStatusLazyQuery>;
 export type VoteStatusQueryResult = Apollo.QueryResult<VoteStatusQuery, VoteStatusQueryVariables>;
+export const VoteForServerDocument = gql`
+    mutation VoteForServer($server: ID!) {
+  vote(server: $server) {
+    id
+    ip
+    server {
+      id
+      name
+    }
+  }
+}
+    `;
+export type VoteForServerMutationFn = Apollo.MutationFunction<VoteForServerMutation, VoteForServerMutationVariables>;
+
+/**
+ * __useVoteForServerMutation__
+ *
+ * To run a mutation, you first call `useVoteForServerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVoteForServerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [voteForServerMutation, { data, loading, error }] = useVoteForServerMutation({
+ *   variables: {
+ *      server: // value for 'server'
+ *   },
+ * });
+ */
+export function useVoteForServerMutation(baseOptions?: Apollo.MutationHookOptions<VoteForServerMutation, VoteForServerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VoteForServerMutation, VoteForServerMutationVariables>(VoteForServerDocument, options);
+      }
+export type VoteForServerMutationHookResult = ReturnType<typeof useVoteForServerMutation>;
+export type VoteForServerMutationResult = Apollo.MutationResult<VoteForServerMutation>;
+export type VoteForServerMutationOptions = Apollo.BaseMutationOptions<VoteForServerMutation, VoteForServerMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($loginEmail: String!, $loginPassword: String!) {
   login(email: $loginEmail, password: $loginPassword) {

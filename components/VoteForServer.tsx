@@ -13,7 +13,10 @@ import { Col, Row } from "react-grid-system"
 import { useAppState } from "./context"
 import styled from "styled-components"
 import gql from "graphql-tag"
-import { useVoteStatusQuery } from "../generated/gql-client"
+import {
+  useVoteForServerMutation,
+  useVoteStatusQuery,
+} from "../generated/gql-client"
 import { DateTime, Duration } from "luxon"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useInterval } from "./hooks/useInterval"
@@ -31,6 +34,19 @@ gql`
   }
 `
 
+gql`
+  mutation VoteForServer($server: ID!) {
+    vote(server: $server) {
+      id
+      ip
+      server {
+        id
+        name
+      }
+    }
+  }
+`
+
 const Wrapper = styled(FormGroup)`
   text-shadow: 0 0 20px white, 0 0 5px white;
   text-align: center;
@@ -41,9 +57,14 @@ type Props = {
 }
 
 export const VoteForServer: React.FC<Props> = ({ serverId }) => {
-  const { data, loading } = useVoteStatusQuery({
+  const {
+    data,
+    loading,
+    refetch: refetchVoteStatus,
+  } = useVoteStatusQuery({
     fetchPolicy: "cache-and-network",
   })
+  const [registerVote] = useVoteForServerMutation()
   const [voteAgainIn, setVoteAgainIn] = useState<Duration>()
   const [votedAlready, setVotedAlready] = useState<boolean>(
     data?.voteStatus?.votedAlready ?? false
@@ -57,7 +78,6 @@ export const VoteForServer: React.FC<Props> = ({ serverId }) => {
 
   useInterval(
     () => {
-      console.log({ votedAlready }, getVoteAgainIn().toMillis())
       if (getVoteAgainIn().toMillis() <= 0) {
         setVotedAlready(false)
       }
@@ -90,17 +110,33 @@ export const VoteForServer: React.FC<Props> = ({ serverId }) => {
     return <Spinner />
   }
 
+  const buttonClickHandler = () => {
+    registerVote({
+      variables: {
+        server: serverId,
+      },
+      onCompleted: () => {
+        refetchVoteStatus()
+      },
+    })
+  }
+
   if (!votedAlready) {
     return (
       <Wrapper label="You can vote every 12 hours!">
-        <Button large intent="success" icon="thumbs-up">
+        <Button
+          large
+          intent="success"
+          icon="thumbs-up"
+          onClick={buttonClickHandler}
+        >
           Vote for this server
         </Button>
       </Wrapper>
     )
   }
 
-  const votedForCurrent = data.voteStatus?.server?.id === serverId
+  const votedForCurrent = data?.voteStatus?.server?.id === serverId
 
   return (
     <Wrapper label={label}>
