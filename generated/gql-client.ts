@@ -116,6 +116,15 @@ export type User = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type Vote = {
+  __typename?: 'Vote';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['String']>;
+  ip?: Maybe<Scalars['String']>;
+  server?: Maybe<Server>;
+  votedBy?: Maybe<User>;
+};
+
 export type RatesFragment = { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined };
 
 export type LoginMutationVariables = Exact<{

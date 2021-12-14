@@ -15,6 +15,7 @@ model User {
   password  String
   name      String?
   servers   Server[]
+  Vote      Vote[]
 }
 
 model Server {
@@ -30,6 +31,7 @@ model Server {
   chronicleId   String      @db.ObjectId
   rates         ServerRates @relation(fields: [serverRatesId], references: [id])
   serverRatesId String      @db.ObjectId
+  Vote          Vote[]
 }
 
 model ServerRates {
@@ -47,4 +49,14 @@ model Chronicle {
   name     String
   shortcut String?  @unique
   Server   Server[]
+}
+
+model Vote {
+  id            String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  createdAt     DateTime @default(now())
+  votedBy       User?    @relation(fields: [votedByUserId], references: [id])
+  votedByUserId String?  @db.ObjectId
+  server        Server   @relation(fields: [serverId], references: [id])
+  serverId      String   @db.ObjectId
+  ip            String
 }

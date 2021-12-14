@@ -7,6 +7,7 @@ import cookie from "cookie"
 export type Context = {
   prisma: PrismaClient
   getCurrentUser: () => Promise<UserDetails>
+  ip: string | string[] | undefined
 }
 
 export const createContext = async (
@@ -16,8 +17,11 @@ export const createContext = async (
   const parsedCookies = cookie.parse(request.headers.cookie ?? "")
   const tokenFromCookies = parsedCookies["auth-token"]
 
+  const ip = request.headers["x-real-ip"] ?? request.socket.remoteAddress
+
   return {
     prisma,
     getCurrentUser: () => verifyToken(tokenFromAuth ?? tokenFromCookies),
+    ip,
   }
 }

@@ -85,6 +85,11 @@ export interface NexusGenObjects {
     id?: string | null; // String
     name?: string | null; // String
   }
+  Vote: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    id?: string | null; // String
+    ip?: string | null; // String
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -112,6 +117,7 @@ export interface NexusGenFieldTypes {
     deleteServer: NexusGenRootTypes['Server'] | null; // Server
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     register: NexusGenRootTypes['User'] | null; // User
+    vote: NexusGenRootTypes['Vote'] | null; // Vote
   }
   Query: { // field return type
     approvedServers: Array<NexusGenRootTypes['Server'] | null> | null; // [Server]
@@ -143,6 +149,13 @@ export interface NexusGenFieldTypes {
     id: string | null; // String
     name: string | null; // String
   }
+  Vote: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string | null; // String
+    ip: string | null; // String
+    server: NexusGenRootTypes['Server'] | null; // Server
+    votedBy: NexusGenRootTypes['User'] | null; // User
+  }
 }
 
 export interface NexusGenFieldTypeNames {
@@ -160,6 +173,7 @@ export interface NexusGenFieldTypeNames {
     deleteServer: 'Server'
     login: 'AuthPayload'
     register: 'User'
+    vote: 'Vote'
   }
   Query: { // field return type name
     approvedServers: 'Server'
@@ -191,6 +205,13 @@ export interface NexusGenFieldTypeNames {
     id: 'String'
     name: 'String'
   }
+  Vote: { // field return type name
+    createdAt: 'DateTime'
+    id: 'String'
+    ip: 'String'
+    server: 'Server'
+    votedBy: 'User'
+  }
 }
 
 export interface NexusGenArgTypes {
@@ -209,6 +230,9 @@ export interface NexusGenArgTypes {
       email: string; // String!
       name?: string | null; // String
       password: string; // String!
+    }
+    vote: { // args
+      server: string; // ID!
     }
   }
   Query: {
