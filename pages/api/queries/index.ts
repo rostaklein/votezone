@@ -7,22 +7,27 @@ export { Me } from "./me"
 export const Query = objectType({
   name: "Query",
   definition(t) {
-    t.list.field("approvedServers", {
+    t.list.nonNull.field("upcomingServers", {
+      type: "Server",
+      resolve: (_parent, _args) => {
+        return prisma.server.findMany({
+          where: { approved: true, openingAt: { not: null } },
+          orderBy: {
+            openingAt: "asc",
+          },
+        })
+      },
+    })
+    t.list.nonNull.field("mostVotedServers", {
       type: "Server",
       resolve: (_parent, _args) => {
         return prisma.server.findMany({
           where: { approved: true },
           orderBy: {
-            createdAt: "desc",
+            Vote: {
+              _count: "desc",
+            },
           },
-        })
-      },
-    })
-    t.list.field("unapprovedServers", {
-      type: "Server",
-      resolve: (_parent, _args) => {
-        return prisma.server.findMany({
-          where: { approved: false },
         })
       },
     })
@@ -59,9 +64,11 @@ export const Query = objectType({
           ip: ctx.ip,
           lastVotedAt: vote?.createdAt,
           votedAlready: Boolean(vote),
-          server: {
-            id: vote?.serverId,
-          },
+          server: vote
+            ? {
+                id: vote.serverId,
+              }
+            : null,
         }
       },
     })

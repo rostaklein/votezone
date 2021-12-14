@@ -81,11 +81,11 @@ export type MutationVoteArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  approvedServers?: Maybe<Array<Maybe<Server>>>;
   chronicles?: Maybe<Array<Maybe<Chronicle>>>;
   me?: Maybe<User>;
+  mostVotedServers?: Maybe<Array<Server>>;
   server?: Maybe<Server>;
-  unapprovedServers?: Maybe<Array<Maybe<Server>>>;
+  upcomingServers?: Maybe<Array<Server>>;
   voteStatus?: Maybe<VoteStatus>;
 };
 
@@ -100,10 +100,11 @@ export type Server = {
   chronicle?: Maybe<Chronicle>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   openingAt?: Maybe<Scalars['DateTime']>;
   rates?: Maybe<ServerRates>;
+  voteCount?: Maybe<Scalars['Int']>;
 };
 
 export type ServerRates = {
@@ -142,17 +143,19 @@ export type VoteStatus = {
 
 export type RatesFragment = { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined };
 
+export type ServersTableDataFragment = { __typename?: 'Server', id: string, name?: string | null | undefined, description?: string | null | undefined, openingAt?: any | null | undefined, voteCount?: number | null | undefined, createdAt?: any | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined, chronicle?: { __typename?: 'Chronicle', id?: string | null | undefined, shortcut?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined };
+
 export type VoteStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type VoteStatusQuery = { __typename?: 'Query', voteStatus?: { __typename?: 'VoteStatus', votedAlready?: boolean | null | undefined, lastVotedAt?: any | null | undefined, ip?: string | null | undefined, server?: { __typename?: 'Server', id?: string | null | undefined } | null | undefined } | null | undefined };
+export type VoteStatusQuery = { __typename?: 'Query', voteStatus?: { __typename?: 'VoteStatus', votedAlready?: boolean | null | undefined, lastVotedAt?: any | null | undefined, ip?: string | null | undefined, server?: { __typename?: 'Server', id: string } | null | undefined } | null | undefined };
 
 export type VoteForServerMutationVariables = Exact<{
   server: Scalars['ID'];
 }>;
 
 
-export type VoteForServerMutation = { __typename?: 'Mutation', vote?: { __typename?: 'Vote', id?: string | null | undefined, ip?: string | null | undefined, server?: { __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined };
+export type VoteForServerMutation = { __typename?: 'Mutation', vote?: { __typename?: 'Vote', id?: string | null | undefined, ip?: string | null | undefined, server?: { __typename?: 'Server', id: string, name?: string | null | undefined } | null | undefined } | null | undefined };
 
 export type LoginMutationVariables = Exact<{
   loginEmail: Scalars['String'];
@@ -160,12 +163,12 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'AuthPayload', token?: string | null | undefined, user?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined, addedServers?: Array<{ __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, createdAt?: any | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined };
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'AuthPayload', token?: string | null | undefined, user?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined, addedServers?: Array<{ __typename?: 'Server', id: string, name?: string | null | undefined, createdAt?: any | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined, addedServers?: Array<{ __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, createdAt?: any | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined, addedServers?: Array<{ __typename?: 'Server', id: string, name?: string | null | undefined, createdAt?: any | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type ChroniclesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -177,26 +180,26 @@ export type CreateServerMutationVariables = Exact<{
 }>;
 
 
-export type CreateServerMutation = { __typename?: 'Mutation', createServer?: { __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, description?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined } | null | undefined };
+export type CreateServerMutation = { __typename?: 'Mutation', createServer?: { __typename?: 'Server', id: string, name?: string | null | undefined, description?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined } | null | undefined };
 
 export type ServerQueryVariables = Exact<{
   serverId: Scalars['ID'];
 }>;
 
 
-export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id?: string | null | undefined, description?: string | null | undefined, createdAt?: any | null | undefined, name?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', id?: string | null | undefined, name?: string | null | undefined } | null | undefined, addedBy?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined } | null | undefined };
+export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id: string, description?: string | null | undefined, createdAt?: any | null | undefined, name?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', id?: string | null | undefined, name?: string | null | undefined } | null | undefined, addedBy?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined } | null | undefined };
 
 export type DeleteServerMutationVariables = Exact<{
   serverId: Scalars['ID'];
 }>;
 
 
-export type DeleteServerMutation = { __typename?: 'Mutation', deleteServer?: { __typename?: 'Server', id?: string | null | undefined } | null | undefined };
+export type DeleteServerMutation = { __typename?: 'Mutation', deleteServer?: { __typename?: 'Server', id: string } | null | undefined };
 
-export type ApprovedServersQueryVariables = Exact<{ [key: string]: never; }>;
+export type MostVotedServersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ApprovedServersQuery = { __typename?: 'Query', approvedServers?: Array<{ __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, description?: string | null | undefined, openingAt?: any | null | undefined, createdAt?: any | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined, chronicle?: { __typename?: 'Chronicle', id?: string | null | undefined, shortcut?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined };
+export type MostVotedServersQuery = { __typename?: 'Query', mostVotedServers?: Array<{ __typename?: 'Server', id: string, name?: string | null | undefined, description?: string | null | undefined, openingAt?: any | null | undefined, voteCount?: number | null | undefined, createdAt?: any | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined, chronicle?: { __typename?: 'Chronicle', id?: string | null | undefined, shortcut?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined }> | null | undefined };
 
 export type SignUpMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']>;
@@ -207,6 +210,11 @@ export type SignUpMutationVariables = Exact<{
 
 export type SignUpMutation = { __typename?: 'Mutation', register?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined, email?: string | null | undefined } | null | undefined };
 
+export type UpcomingServersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpcomingServersQuery = { __typename?: 'Query', upcomingServers?: Array<{ __typename?: 'Server', id: string, name?: string | null | undefined, description?: string | null | undefined, openingAt?: any | null | undefined, voteCount?: number | null | undefined, createdAt?: any | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined, chronicle?: { __typename?: 'Chronicle', id?: string | null | undefined, shortcut?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined }> | null | undefined };
+
 export const RatesFragmentDoc = gql`
     fragment Rates on ServerRates {
   xp
@@ -216,6 +224,27 @@ export const RatesFragmentDoc = gql`
   spoil
 }
     `;
+export const ServersTableDataFragmentDoc = gql`
+    fragment ServersTableData on Server {
+  id
+  name
+  description
+  addedBy {
+    name
+  }
+  chronicle {
+    id
+    shortcut
+    name
+  }
+  rates {
+    ...Rates
+  }
+  openingAt
+  voteCount
+  createdAt
+}
+    ${RatesFragmentDoc}`;
 export const VoteStatusDocument = gql`
     query VoteStatus {
   voteStatus {
@@ -534,55 +563,40 @@ export function useDeleteServerMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteServerMutationHookResult = ReturnType<typeof useDeleteServerMutation>;
 export type DeleteServerMutationResult = Apollo.MutationResult<DeleteServerMutation>;
 export type DeleteServerMutationOptions = Apollo.BaseMutationOptions<DeleteServerMutation, DeleteServerMutationVariables>;
-export const ApprovedServersDocument = gql`
-    query ApprovedServers {
-  approvedServers {
-    id
-    name
-    description
-    addedBy {
-      name
-    }
-    chronicle {
-      id
-      shortcut
-      name
-    }
-    rates {
-      ...Rates
-    }
-    openingAt
-    createdAt
+export const MostVotedServersDocument = gql`
+    query MostVotedServers {
+  mostVotedServers {
+    ...ServersTableData
   }
 }
-    ${RatesFragmentDoc}`;
+    ${ServersTableDataFragmentDoc}`;
 
 /**
- * __useApprovedServersQuery__
+ * __useMostVotedServersQuery__
  *
- * To run a query within a React component, call `useApprovedServersQuery` and pass it any options that fit your needs.
- * When your component renders, `useApprovedServersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMostVotedServersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMostVotedServersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useApprovedServersQuery({
+ * const { data, loading, error } = useMostVotedServersQuery({
  *   variables: {
  *   },
  * });
  */
-export function useApprovedServersQuery(baseOptions?: Apollo.QueryHookOptions<ApprovedServersQuery, ApprovedServersQueryVariables>) {
+export function useMostVotedServersQuery(baseOptions?: Apollo.QueryHookOptions<MostVotedServersQuery, MostVotedServersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ApprovedServersQuery, ApprovedServersQueryVariables>(ApprovedServersDocument, options);
+        return Apollo.useQuery<MostVotedServersQuery, MostVotedServersQueryVariables>(MostVotedServersDocument, options);
       }
-export function useApprovedServersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ApprovedServersQuery, ApprovedServersQueryVariables>) {
+export function useMostVotedServersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MostVotedServersQuery, MostVotedServersQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ApprovedServersQuery, ApprovedServersQueryVariables>(ApprovedServersDocument, options);
+          return Apollo.useLazyQuery<MostVotedServersQuery, MostVotedServersQueryVariables>(MostVotedServersDocument, options);
         }
-export type ApprovedServersQueryHookResult = ReturnType<typeof useApprovedServersQuery>;
-export type ApprovedServersLazyQueryHookResult = ReturnType<typeof useApprovedServersLazyQuery>;
-export type ApprovedServersQueryResult = Apollo.QueryResult<ApprovedServersQuery, ApprovedServersQueryVariables>;
+export type MostVotedServersQueryHookResult = ReturnType<typeof useMostVotedServersQuery>;
+export type MostVotedServersLazyQueryHookResult = ReturnType<typeof useMostVotedServersLazyQuery>;
+export type MostVotedServersQueryResult = Apollo.QueryResult<MostVotedServersQuery, MostVotedServersQueryVariables>;
 export const SignUpDocument = gql`
     mutation SignUp($name: String, $email: String!, $password: String!) {
   register(name: $name, email: $email, password: $password) {
@@ -620,3 +634,37 @@ export function useSignUpMutation(baseOptions?: Apollo.MutationHookOptions<SignU
 export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
 export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
 export type SignUpMutationOptions = Apollo.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
+export const UpcomingServersDocument = gql`
+    query UpcomingServers {
+  upcomingServers {
+    ...ServersTableData
+  }
+}
+    ${ServersTableDataFragmentDoc}`;
+
+/**
+ * __useUpcomingServersQuery__
+ *
+ * To run a query within a React component, call `useUpcomingServersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUpcomingServersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUpcomingServersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUpcomingServersQuery(baseOptions?: Apollo.QueryHookOptions<UpcomingServersQuery, UpcomingServersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UpcomingServersQuery, UpcomingServersQueryVariables>(UpcomingServersDocument, options);
+      }
+export function useUpcomingServersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UpcomingServersQuery, UpcomingServersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UpcomingServersQuery, UpcomingServersQueryVariables>(UpcomingServersDocument, options);
+        }
+export type UpcomingServersQueryHookResult = ReturnType<typeof useUpcomingServersQuery>;
+export type UpcomingServersLazyQueryHookResult = ReturnType<typeof useUpcomingServersLazyQuery>;
+export type UpcomingServersQueryResult = Apollo.QueryResult<UpcomingServersQuery, UpcomingServersQueryVariables>;

@@ -15,11 +15,24 @@ export const ServerRates = objectType({
 export const Server = objectType({
   name: "Server",
   definition(t) {
-    t.string("id")
+    t.nonNull.string("id")
     t.string("name")
     t.string("description")
     t.date("createdAt")
     t.date("openingAt")
+    t.int("voteCount", {
+      resolve: parent =>
+        prisma.vote
+          .aggregate({
+            _count: {
+              id: true,
+            },
+            where: {
+              serverId: parent.id,
+            },
+          })
+          .then(value => value._count.id),
+    })
     t.field("addedBy", {
       type: "User",
       resolve: parent =>

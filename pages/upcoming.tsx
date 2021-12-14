@@ -1,13 +1,13 @@
 import { ContentWrapper } from "../components/Layout"
 import gql from "graphql-tag"
-import { useMostVotedServersQuery } from "../generated/gql-client"
 import { Icon, Spinner } from "@blueprintjs/core"
 import styled from "styled-components"
 import { ServersTable } from "../components/ServersTable"
+import { useUpcomingServersQuery } from "../generated/gql-client"
 
 gql`
-  query MostVotedServers {
-    mostVotedServers {
+  query UpcomingServers {
+    upcomingServers {
       ...ServersTableData
     }
   }
@@ -18,8 +18,8 @@ const StyledMain = styled.main`
   overflow: auto;
 `
 
-const MostVotedServersPage = () => {
-  const { loading, data } = useMostVotedServersQuery({
+const UpcomingServersPage = () => {
+  const { loading, data } = useUpcomingServersQuery({
     fetchPolicy: "cache-and-network",
   })
 
@@ -32,16 +32,16 @@ const MostVotedServersPage = () => {
           <StyledMain>
             <h2>
               <Icon
-                icon="thumbs-up"
+                icon="calendar"
                 style={{ verticalAlign: "baseline", marginRight: 8 }}
                 color="gray"
               />
-              Top Rated Servers
+              Upcoming servers
             </h2>
-            {data?.mostVotedServers && (
+            {data?.upcomingServers && (
               <ServersTable
-                servers={data.mostVotedServers}
-                lastColumn="votes"
+                servers={data.upcomingServers}
+                lastColumn="opening"
               />
             )}
           </StyledMain>
@@ -51,4 +51,4 @@ const MostVotedServersPage = () => {
   )
 }
 
-export default MostVotedServersPage
+export default UpcomingServersPage

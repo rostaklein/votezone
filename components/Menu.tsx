@@ -30,7 +30,9 @@ export const Menu: React.FC = () => {
         <MenuItem icon="chart" text="Top Rated" />
       </Link>
       <MenuDivider />
-      <MenuItem icon="calendar" text="Upcoming Servers" />
+      <Link href="/upcoming" passHref>
+        <MenuItem icon="calendar" text="Upcoming Servers" />
+      </Link>
       <MenuItem icon="filter" text="Find Server" />
       <Link href="/create" passHref>
         <MenuItem icon="new-link" text="Add Server" />

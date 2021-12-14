@@ -69,7 +69,7 @@ export interface NexusGenObjects {
   Server: { // root type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     description?: string | null; // String
-    id?: string | null; // String
+    id: string; // String!
     name?: string | null; // String
     openingAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
@@ -126,11 +126,11 @@ export interface NexusGenFieldTypes {
     vote: NexusGenRootTypes['Vote'] | null; // Vote
   }
   Query: { // field return type
-    approvedServers: Array<NexusGenRootTypes['Server'] | null> | null; // [Server]
     chronicles: Array<NexusGenRootTypes['Chronicle'] | null> | null; // [Chronicle]
     me: NexusGenRootTypes['User'] | null; // User
+    mostVotedServers: NexusGenRootTypes['Server'][] | null; // [Server!]
     server: NexusGenRootTypes['Server'] | null; // Server
-    unapprovedServers: Array<NexusGenRootTypes['Server'] | null> | null; // [Server]
+    upcomingServers: NexusGenRootTypes['Server'][] | null; // [Server!]
     voteStatus: NexusGenRootTypes['VoteStatus'] | null; // VoteStatus
   }
   Server: { // field return type
@@ -138,10 +138,11 @@ export interface NexusGenFieldTypes {
     chronicle: NexusGenRootTypes['Chronicle'] | null; // Chronicle
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     description: string | null; // String
-    id: string | null; // String
+    id: string; // String!
     name: string | null; // String
     openingAt: NexusGenScalars['DateTime'] | null; // DateTime
     rates: NexusGenRootTypes['ServerRates'] | null; // ServerRates
+    voteCount: number | null; // Int
   }
   ServerRates: { // field return type
     adena: number | null; // Int
@@ -189,11 +190,11 @@ export interface NexusGenFieldTypeNames {
     vote: 'Vote'
   }
   Query: { // field return type name
-    approvedServers: 'Server'
     chronicles: 'Chronicle'
     me: 'User'
+    mostVotedServers: 'Server'
     server: 'Server'
-    unapprovedServers: 'Server'
+    upcomingServers: 'Server'
     voteStatus: 'VoteStatus'
   }
   Server: { // field return type name
@@ -205,6 +206,7 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     openingAt: 'DateTime'
     rates: 'ServerRates'
+    voteCount: 'Int'
   }
   ServerRates: { // field return type name
     adena: 'Int'

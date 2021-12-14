@@ -39,11 +39,11 @@ type Mutation {
 }
 
 type Query {
-  approvedServers: [Server]
   chronicles: [Chronicle]
   me: User
+  mostVotedServers: [Server!]
   server(id: ID!): Server
-  unapprovedServers: [Server]
+  upcomingServers: [Server!]
   voteStatus: VoteStatus
 }
 
@@ -52,10 +52,11 @@ type Server {
   chronicle: Chronicle
   createdAt: DateTime
   description: String
-  id: String
+  id: String!
   name: String
   openingAt: DateTime
   rates: ServerRates
+  voteCount: Int
 }
 
 type ServerRates {
