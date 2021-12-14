@@ -59,6 +59,9 @@ export const Query = objectType({
           ip: ctx.ip,
           lastVotedAt: vote?.createdAt,
           votedAlready: Boolean(vote),
+          server: {
+            id: vote?.serverId,
+          },
         }
       },
     })

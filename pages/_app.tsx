@@ -76,6 +76,7 @@ MyApp.getInitialProps = async (appContext: AppContext): Promise<Props> => {
     .query<MeQuery>({
       query: ME_QUERY,
       context: { headers: { Authorization: `Bearer ${authHeader}` } },
+      fetchPolicy: "cache-first",
     })
     .catch(err => {
       console.error("Could not get current user", err)

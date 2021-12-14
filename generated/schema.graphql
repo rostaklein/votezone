@@ -84,5 +84,6 @@ type Vote {
 type VoteStatus {
   ip: String
   lastVotedAt: DateTime
+  server: Server
   votedAlready: Boolean
 }

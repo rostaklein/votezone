@@ -93,6 +93,7 @@ export interface NexusGenObjects {
   VoteStatus: { // root type
     ip?: string | null; // String
     lastVotedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    server?: NexusGenRootTypes['Server'] | null; // Server
     votedAlready?: boolean | null; // Boolean
   }
 }
@@ -165,6 +166,7 @@ export interface NexusGenFieldTypes {
   VoteStatus: { // field return type
     ip: string | null; // String
     lastVotedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    server: NexusGenRootTypes['Server'] | null; // Server
     votedAlready: boolean | null; // Boolean
   }
 }
@@ -227,6 +229,7 @@ export interface NexusGenFieldTypeNames {
   VoteStatus: { // field return type name
     ip: 'String'
     lastVotedAt: 'DateTime'
+    server: 'Server'
     votedAlready: 'Boolean'
   }
 }

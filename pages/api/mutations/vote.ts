@@ -5,6 +5,8 @@ import prisma from "../../../lib/prisma"
 
 export const getLastVote = async (ip: string) => {
   const twelveHoursAgo = DateTime.now().minus({ hours: 12 }).toJSDate()
+
+  console.log({ twelveHoursAgo })
   const vote = await prisma.vote.findFirst({
     where: { ip, createdAt: { gte: twelveHoursAgo } },
   })

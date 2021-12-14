@@ -1,4 +1,3 @@
-import prisma from "../../../lib/prisma"
 import { objectType } from "nexus"
 
 export const VoteStatus = objectType({
@@ -7,5 +6,6 @@ export const VoteStatus = objectType({
     t.string("ip")
     t.boolean("votedAlready")
     t.date("lastVotedAt")
+    t.field("server", { type: "Server" })
   },
 })

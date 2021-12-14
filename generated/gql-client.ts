@@ -48,6 +48,7 @@ export type Mutation = {
   deleteServer?: Maybe<Server>;
   login?: Maybe<AuthPayload>;
   register?: Maybe<User>;
+  vote?: Maybe<Vote>;
 };
 
 
@@ -73,6 +74,11 @@ export type MutationRegisterArgs = {
   password: Scalars['String'];
 };
 
+
+export type MutationVoteArgs = {
+  server: Scalars['ID'];
+};
+
 export type Query = {
   __typename?: 'Query';
   approvedServers?: Maybe<Array<Maybe<Server>>>;
@@ -80,6 +86,7 @@ export type Query = {
   me?: Maybe<User>;
   server?: Maybe<Server>;
   unapprovedServers?: Maybe<Array<Maybe<Server>>>;
+  voteStatus?: Maybe<VoteStatus>;
 };
 
 
@@ -125,7 +132,20 @@ export type Vote = {
   votedBy?: Maybe<User>;
 };
 
+export type VoteStatus = {
+  __typename?: 'VoteStatus';
+  ip?: Maybe<Scalars['String']>;
+  lastVotedAt?: Maybe<Scalars['DateTime']>;
+  server?: Maybe<Server>;
+  votedAlready?: Maybe<Scalars['Boolean']>;
+};
+
 export type RatesFragment = { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined };
+
+export type VoteStatusQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type VoteStatusQuery = { __typename?: 'Query', voteStatus?: { __typename?: 'VoteStatus', votedAlready?: boolean | null | undefined, lastVotedAt?: any | null | undefined, ip?: string | null | undefined, server?: { __typename?: 'Server', id?: string | null | undefined } | null | undefined } | null | undefined };
 
 export type LoginMutationVariables = Exact<{
   loginEmail: Scalars['String'];
@@ -157,7 +177,7 @@ export type ServerQueryVariables = Exact<{
 }>;
 
 
-export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id?: string | null | undefined, description?: string | null | undefined, createdAt?: any | null | undefined, name?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', name?: string | null | undefined } | null | undefined, addedBy?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined } | null | undefined };
+export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id?: string | null | undefined, description?: string | null | undefined, createdAt?: any | null | undefined, name?: string | null | undefined, chronicle?: { __typename?: 'Chronicle', id?: string | null | undefined, name?: string | null | undefined } | null | undefined, addedBy?: { __typename?: 'User', id?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined } | null | undefined };
 
 export type DeleteServerMutationVariables = Exact<{
   serverId: Scalars['ID'];
@@ -169,7 +189,7 @@ export type DeleteServerMutation = { __typename?: 'Mutation', deleteServer?: { _
 export type ApprovedServersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ApprovedServersQuery = { __typename?: 'Query', approvedServers?: Array<{ __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, description?: string | null | undefined, openingAt?: any | null | undefined, createdAt?: any | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined, chronicle?: { __typename?: 'Chronicle', shortcut?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined };
+export type ApprovedServersQuery = { __typename?: 'Query', approvedServers?: Array<{ __typename?: 'Server', id?: string | null | undefined, name?: string | null | undefined, description?: string | null | undefined, openingAt?: any | null | undefined, createdAt?: any | null | undefined, addedBy?: { __typename?: 'User', name?: string | null | undefined } | null | undefined, chronicle?: { __typename?: 'Chronicle', id?: string | null | undefined, shortcut?: string | null | undefined, name?: string | null | undefined } | null | undefined, rates?: { __typename?: 'ServerRates', xp?: number | null | undefined, sp?: number | null | undefined, adena?: number | null | undefined, drop?: number | null | undefined, spoil?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined };
 
 export type SignUpMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']>;
@@ -189,6 +209,45 @@ export const RatesFragmentDoc = gql`
   spoil
 }
     `;
+export const VoteStatusDocument = gql`
+    query VoteStatus {
+  voteStatus {
+    votedAlready
+    lastVotedAt
+    ip
+    server {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useVoteStatusQuery__
+ *
+ * To run a query within a React component, call `useVoteStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVoteStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useVoteStatusQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useVoteStatusQuery(baseOptions?: Apollo.QueryHookOptions<VoteStatusQuery, VoteStatusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<VoteStatusQuery, VoteStatusQueryVariables>(VoteStatusDocument, options);
+      }
+export function useVoteStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<VoteStatusQuery, VoteStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<VoteStatusQuery, VoteStatusQueryVariables>(VoteStatusDocument, options);
+        }
+export type VoteStatusQueryHookResult = ReturnType<typeof useVoteStatusQuery>;
+export type VoteStatusLazyQueryHookResult = ReturnType<typeof useVoteStatusLazyQuery>;
+export type VoteStatusQueryResult = Apollo.QueryResult<VoteStatusQuery, VoteStatusQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($loginEmail: String!, $loginPassword: String!) {
   login(email: $loginEmail, password: $loginPassword) {
@@ -353,6 +412,7 @@ export const ServerDocument = gql`
   server(id: $serverId) {
     id
     chronicle {
+      id
       name
     }
     addedBy {
@@ -439,6 +499,7 @@ export const ApprovedServersDocument = gql`
       name
     }
     chronicle {
+      id
       shortcut
       name
     }

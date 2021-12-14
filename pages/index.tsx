@@ -24,6 +24,7 @@ gql`
         name
       }
       chronicle {
+        id
         shortcut
         name
       }

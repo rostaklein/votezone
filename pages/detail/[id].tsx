@@ -19,6 +19,7 @@ gql`
     server(id: $serverId) {
       id
       chronicle {
+        id
         name
       }
       addedBy {
@@ -95,6 +96,7 @@ function ServerDetail() {
   const { currentUser } = useAppState()
   const { loading, data } = useServerQuery({
     variables: { serverId },
+    fetchPolicy: "cache-first",
   })
 
   const [deleteServer] = useDeleteServerMutation()
