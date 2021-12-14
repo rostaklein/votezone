@@ -1,18 +1,7 @@
-import { ContentWrapper } from "../components/Layout"
 import Link from "next/link"
 import gql from "graphql-tag"
-import {
-  ServersTableDataFragment,
-  useApprovedServersQuery,
-} from "../generated/gql-client"
-import {
-  Button,
-  HTMLTable,
-  Icon,
-  Spinner,
-  Tag,
-  Tooltip,
-} from "@blueprintjs/core"
+import { ServersTableDataFragment } from "../generated/gql-client"
+import { Button, HTMLTable, Tag, Tooltip } from "@blueprintjs/core"
 import { DateTime } from "luxon"
 import styled from "styled-components"
 import { Rates } from "../components/Rates"
@@ -93,7 +82,8 @@ export const ServersTable: React.FC<Props> = ({ servers, lastColumn }) => {
         ),
       }
     }
-  }, [])
+  }, [lastColumn])
+
   return (
     <StyledTable bordered condensed>
       <thead>
