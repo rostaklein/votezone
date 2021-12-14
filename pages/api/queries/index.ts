@@ -1,6 +1,6 @@
-import { UserInputError } from "apollo-server-micro"
-import { idArg, nonNull, nullable, objectType, stringArg } from "nexus"
+import { idArg, nonNull, objectType } from "nexus"
 import prisma from "../../../lib/prisma"
+import { getLastVote } from "../mutations/vote"
 
 export { Me } from "./me"
 
@@ -43,6 +43,23 @@ export const Query = objectType({
         return prisma.server.findUnique({
           where: { id: args.id },
         })
+      },
+    })
+
+    t.field("voteStatus", {
+      type: "VoteStatus",
+      resolve: async (_, __, ctx) => {
+        if (typeof ctx.ip !== "string") {
+          return null
+        }
+
+        const vote = await getLastVote(ctx.ip)
+
+        return {
+          ip: ctx.ip,
+          lastVotedAt: vote?.createdAt,
+          votedAlready: Boolean(vote),
+        }
       },
     })
   },

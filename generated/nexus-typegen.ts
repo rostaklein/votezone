@@ -90,6 +90,11 @@ export interface NexusGenObjects {
     id?: string | null; // String
     ip?: string | null; // String
   }
+  VoteStatus: { // root type
+    ip?: string | null; // String
+    lastVotedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    votedAlready?: boolean | null; // Boolean
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -125,6 +130,7 @@ export interface NexusGenFieldTypes {
     me: NexusGenRootTypes['User'] | null; // User
     server: NexusGenRootTypes['Server'] | null; // Server
     unapprovedServers: Array<NexusGenRootTypes['Server'] | null> | null; // [Server]
+    voteStatus: NexusGenRootTypes['VoteStatus'] | null; // VoteStatus
   }
   Server: { // field return type
     addedBy: NexusGenRootTypes['User'] | null; // User
@@ -156,6 +162,11 @@ export interface NexusGenFieldTypes {
     server: NexusGenRootTypes['Server'] | null; // Server
     votedBy: NexusGenRootTypes['User'] | null; // User
   }
+  VoteStatus: { // field return type
+    ip: string | null; // String
+    lastVotedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    votedAlready: boolean | null; // Boolean
+  }
 }
 
 export interface NexusGenFieldTypeNames {
@@ -181,6 +192,7 @@ export interface NexusGenFieldTypeNames {
     me: 'User'
     server: 'Server'
     unapprovedServers: 'Server'
+    voteStatus: 'VoteStatus'
   }
   Server: { // field return type name
     addedBy: 'User'
@@ -211,6 +223,11 @@ export interface NexusGenFieldTypeNames {
     ip: 'String'
     server: 'Server'
     votedBy: 'User'
+  }
+  VoteStatus: { // field return type name
+    ip: 'String'
+    lastVotedAt: 'DateTime'
+    votedAlready: 'Boolean'
   }
 }
 

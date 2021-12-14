@@ -44,6 +44,7 @@ type Query {
   me: User
   server(id: ID!): Server
   unapprovedServers: [Server]
+  voteStatus: VoteStatus
 }
 
 type Server {
@@ -78,4 +79,10 @@ type Vote {
   ip: String
   server: Server
   votedBy: User
+}
+
+type VoteStatus {
+  ip: String
+  lastVotedAt: DateTime
+  votedAlready: Boolean
 }

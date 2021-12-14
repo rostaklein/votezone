@@ -3,7 +3,7 @@ import { DateTime } from "luxon"
 import { idArg, mutationField, nonNull } from "nexus"
 import prisma from "../../../lib/prisma"
 
-const getLastVote = async (ip: string) => {
+export const getLastVote = async (ip: string) => {
   const twelveHoursAgo = DateTime.now().minus({ hours: 12 }).toJSDate()
   const vote = await prisma.vote.findFirst({
     where: { ip, createdAt: { gte: twelveHoursAgo } },
