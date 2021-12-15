@@ -1,6 +1,6 @@
 import { ApolloError } from "apollo-server-micro"
 import { MicroRequest } from "apollo-server-micro/dist/types"
-import { got } from "got"
+import axios from "axios"
 
 type RecaptchaResponse = {
   success: boolean
@@ -19,9 +19,9 @@ export const verifyCaptcha = async (req: MicroRequest): Promise<void> => {
       throw new Error("Recaptcha secret key not set")
     }
     const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_KEY}&response=${captchaToken}`
-    const response = await got(verificationUrl).json<RecaptchaResponse>()
+    const { data } = await axios.get<RecaptchaResponse>(verificationUrl)
 
-    if (!response.success) {
+    if (!data.success) {
       throw new Error("Captcha response didnt succeed.")
     }
   } catch (err) {
