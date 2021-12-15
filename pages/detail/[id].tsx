@@ -13,6 +13,7 @@ import Image from "next/image"
 import styled from "styled-components"
 import { Rates } from "../../components/Rates"
 import { VoteForServer } from "../../components/VoteForServer"
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3"
 
 gql`
   query Server($serverId: ID!) {
@@ -126,7 +127,9 @@ function ServerDetail() {
               Back
             </Button>
             <div style={{ alignSelf: "center" }}>
-              <VoteForServer serverId={data?.server?.id} />
+              <GoogleReCaptchaProvider reCaptchaKey="6Le0gqUdAAAAAB2_wBy2Q8IkMQlQTS1HLh5qEnN_">
+                <VoteForServer serverId={data?.server?.id} />
+              </GoogleReCaptchaProvider>
             </div>
             <ServerNameWrapper>
               <h1 {...loadingComponent}>{data?.server?.name}</h1>

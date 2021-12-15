@@ -8,6 +8,7 @@ export type Context = {
   prisma: PrismaClient
   getCurrentUser: () => Promise<UserDetails>
   ip: string | string[] | undefined
+  request: MicroRequest
 }
 
 export const createContext = async (
@@ -23,5 +24,6 @@ export const createContext = async (
     prisma,
     getCurrentUser: () => verifyToken(tokenFromAuth ?? tokenFromCookies),
     ip,
+    request,
   }
 }

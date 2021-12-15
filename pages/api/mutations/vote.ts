@@ -2,6 +2,7 @@ import { ApolloError } from "apollo-server-micro"
 import { DateTime } from "luxon"
 import { idArg, mutationField, nonNull } from "nexus"
 import prisma from "../../../lib/prisma"
+import { verifyCaptcha } from "../auth/verifyCaptcha"
 
 export const getLastVote = async (ip: string) => {
   const twelveHoursAgo = DateTime.now().minus({ hours: 12 }).toJSDate()
@@ -19,6 +20,8 @@ export const voteMutation = mutationField("vote", {
     server: nonNull(idArg()),
   },
   resolve: async (_, args, ctx) => {
+    await verifyCaptcha(ctx.request)
+
     const user = await ctx.getCurrentUser().catch(() => {})
 
     let votedBy

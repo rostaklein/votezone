@@ -5,6 +5,7 @@ import {
   Icon,
   Spinner,
   Tag,
+  Toaster,
 } from "@blueprintjs/core"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -20,6 +21,7 @@ import {
 import { DateTime, Duration } from "luxon"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useInterval } from "./hooks/useInterval"
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
 
 gql`
   query VoteStatus {
@@ -64,7 +66,9 @@ export const VoteForServer: React.FC<Props> = ({ serverId }) => {
   } = useVoteStatusQuery({
     fetchPolicy: "cache-and-network",
   })
-  const [registerVote] = useVoteForServerMutation()
+  const [registerVote, { loading: mutationLoading }] =
+    useVoteForServerMutation()
+  const { executeRecaptcha } = useGoogleReCaptcha()
   const [voteAgainIn, setVoteAgainIn] = useState<Duration>()
   const [votedAlready, setVotedAlready] = useState<boolean>(
     data?.voteStatus?.votedAlready ?? false
@@ -110,10 +114,30 @@ export const VoteForServer: React.FC<Props> = ({ serverId }) => {
     return <Spinner />
   }
 
-  const buttonClickHandler = () => {
+  const buttonClickHandler = async () => {
+    console.log({ executeRecaptcha })
+    if (!executeRecaptcha) {
+      throw new Error("Recaptcha execution function not found")
+    }
+
+    let recaptchaToken = ""
+    try {
+      recaptchaToken = (await executeRecaptcha("register")) ?? ""
+    } catch (err) {
+      const toaster = new Toaster({})
+      toaster.show({
+        message: "Recaptcha failed. Please, try again.",
+        intent: "danger",
+      })
+      return
+    }
+
     registerVote({
       variables: {
         server: serverId,
+      },
+      context: {
+        headers: { "x-recaptcha-token": recaptchaToken },
       },
       onCompleted: () => {
         refetchVoteStatus()
@@ -129,6 +153,7 @@ export const VoteForServer: React.FC<Props> = ({ serverId }) => {
           intent="success"
           icon="thumbs-up"
           onClick={buttonClickHandler}
+          loading={mutationLoading}
         >
           Vote for this server
         </Button>
