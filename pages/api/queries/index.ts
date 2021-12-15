@@ -11,10 +11,11 @@ export const Query = objectType({
       type: "Server",
       resolve: (_parent, _args) => {
         return prisma.server.findMany({
-          where: { approved: true, openingAt: { not: null } },
+          where: { approved: true, openingAt: { not: null, gte: new Date() } },
           orderBy: {
             openingAt: "asc",
           },
+          take: 10,
         })
       },
     })
@@ -28,6 +29,7 @@ export const Query = objectType({
               _count: "desc",
             },
           },
+          take: 10,
         })
       },
     })
