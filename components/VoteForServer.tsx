@@ -142,6 +142,13 @@ export const VoteForServer: React.FC<Props> = ({ serverId }) => {
       onCompleted: () => {
         refetchVoteStatus()
       },
+      onError: () => {
+        const toaster = new Toaster({})
+        toaster.show({
+          message: "Vote failed. Please, try again later.",
+          intent: "danger",
+        })
+      },
     })
   }
 
