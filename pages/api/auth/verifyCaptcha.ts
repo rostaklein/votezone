@@ -1,6 +1,6 @@
 import { ApolloError } from "apollo-server-micro"
 import { MicroRequest } from "apollo-server-micro/dist/types"
-import got from "got"
+import { got } from "got"
 
 type RecaptchaResponse = {
   success: boolean
