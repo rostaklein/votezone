@@ -85,7 +85,7 @@ export const Rates: React.FC<Props> = ({ rates, displayIcons }) => {
   }
 
   return (
-    <Row gutterWidth={6}>
+    <Row gutterWidth={6} style={{ flexWrap: "nowrap" }}>
       {Object.keys(IconImageUrl).map(key => (
         <Rate
           key={key}

@@ -30,7 +30,7 @@ const MostVotedServersPage = () => {
       ) : (
         <>
           <StyledMain>
-            <h2>
+            <h2 style={{ position: "sticky", left: 0 }}>
               <Icon
                 icon="thumbs-up"
                 style={{ verticalAlign: "baseline", marginRight: 8 }}

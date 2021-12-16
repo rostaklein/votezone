@@ -45,6 +45,8 @@ const BodyWrapper = styled(WidthWrapper)`
 export const ContentWrapper = styled.main<Props>`
   padding: 0 12px 24px 12px;
 
+  overflow: hidden;
+  position: relative;
   flex: 1;
   @media only screen and (min-width: 768px) {
     min-height: 400px;
@@ -74,9 +76,7 @@ const Layout: React.FC<Props> = props => {
           <Header />
         </WidthWrapper>
         <BodyWrapper>
-          <Hidden sm xs>
-            <Menu />
-          </Hidden>
+          <Menu />
           {props.children}
         </BodyWrapper>
       </Wrapper>
