@@ -1,7 +1,16 @@
-import { Menu as BlueprintMenu, MenuDivider, MenuItem } from "@blueprintjs/core"
+import {
+  Button,
+  Drawer,
+  DrawerSize,
+  Menu as BlueprintMenu,
+  MenuDivider,
+  MenuItem,
+} from "@blueprintjs/core"
 import Cookies from "js-cookie"
+import Image from "next/image"
 import Link from "next/link"
 import Router from "next/router"
+import { useState } from "react"
 import styled from "styled-components"
 import { useAppDispatch, useAppState } from "./context"
 
@@ -12,7 +21,7 @@ const StyledMenu = styled(BlueprintMenu)`
   padding: 8px 12px;
 `
 
-export const Menu: React.FC = () => {
+const MenuItems: React.FC = () => {
   const { currentUser } = useAppState()
   const dispatch = useAppDispatch()
   const logOut = () => {
@@ -24,7 +33,7 @@ export const Menu: React.FC = () => {
     Cookies.remove("auth-token")
   }
   return (
-    <StyledMenu>
+    <>
       <MenuDivider title="Servers" />
       <Link href="/" passHref>
         <MenuItem icon="chart" text="Top Rated" />
@@ -59,6 +68,51 @@ export const Menu: React.FC = () => {
           </Link>
         </>
       )}
+    </>
+  )
+}
+
+export const DesktopMenu: React.FC = () => {
+  return (
+    <StyledMenu>
+      <MenuItems />
     </StyledMenu>
+  )
+}
+
+export const MobileMenu: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  return (
+    <>
+      <Button
+        icon="menu"
+        large
+        style={{ marginTop: -18, float: "right" }}
+        onClick={() => setIsOpen(!isOpen)}
+      />
+      <Drawer
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        position="left"
+        style={{ width: "auto" }}
+      >
+        <BlueprintMenu
+          onClick={() => setIsOpen(false)}
+          large
+          style={{ paddingLeft: 12, paddingRight: 24 }}
+        >
+          <div style={{ textAlign: "center" }}>
+            <Image
+              src="/votezone_logo.svg"
+              alt="Votezone logo"
+              height={80}
+              width={160}
+              layout="fixed"
+            />
+          </div>
+          <MenuItems />
+        </BlueprintMenu>
+      </Drawer>
+    </>
   )
 }

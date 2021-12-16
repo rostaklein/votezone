@@ -1,7 +1,7 @@
 import { Hidden } from "react-grid-system"
 import styled from "styled-components"
 import Header from "./Header"
-import { Menu } from "./Menu"
+import { DesktopMenu } from "./Menu"
 
 const Wrapper = styled.div`
   padding: 0 12px;
@@ -43,7 +43,7 @@ const BodyWrapper = styled(WidthWrapper)`
 `
 
 export const ContentWrapper = styled.main<Props>`
-  padding: 0 12px 24px 12px;
+  padding: 0 12px 36px 12px;
 
   overflow: hidden;
   position: relative;
@@ -76,7 +76,9 @@ const Layout: React.FC<Props> = props => {
           <Header />
         </WidthWrapper>
         <BodyWrapper>
-          <Menu />
+          <Hidden xs>
+            <DesktopMenu />
+          </Hidden>
           {props.children}
         </BodyWrapper>
       </Wrapper>

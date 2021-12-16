@@ -6,7 +6,7 @@ import { LoginForm } from "../components/login/LoginForm"
 function LoginPage() {
   return (
     <ContentWrapper centerContent>
-      <Col sm={8} md={6}>
+      <Col xs={10} md={6}>
         <LoginForm />
       </Col>
     </ContentWrapper>

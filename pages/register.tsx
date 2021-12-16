@@ -26,7 +26,7 @@ function Register(props) {
 
   return (
     <ContentWrapper centerContent>
-      <Col sm={12} md={6}>
+      <Col xs={10} md={6}>
         <form
           onSubmit={async e => {
             e.preventDefault()
